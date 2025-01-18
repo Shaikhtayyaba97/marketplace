@@ -44,13 +44,15 @@ const Shampoo = ({ category }: { category: string }) => {
           >
             {/* Image */}
             <div className="bg-gray-100 p-4 rounded-md">
-              <Image
-                src={product.imageUrl}
-                alt={product.name}
-                width={120}
-                height={120}
-                className="mx-auto object-contain"
-              />
+              <Link href={`/men/shampoo/${product.slug.current}`}>
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={120}
+                  height={120}
+                  className="mx-auto object-contain"
+                />
+              </Link>
             </div>
 
             {/* Name */}
