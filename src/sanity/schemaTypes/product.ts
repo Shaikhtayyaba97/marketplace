@@ -87,6 +87,7 @@ export default {
         title: 'Description',
         type: 'text',
       },
+      
       {
         name: 'image',
         title: 'Product Image',

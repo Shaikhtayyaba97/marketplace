@@ -3,7 +3,6 @@ import { client } from "@/sanity/lib/client"; // Sanity client import
 import Image from "next/image"; // Image component for optimized images
 import { notFound } from "next/navigation"; // For handling 404 errors
 
-
 // Define a Product interface to structure the product data
 interface Product {
   _id: string;
@@ -43,21 +42,22 @@ export default async function ProductPage({ params }: { params: { slug: string }
   return (
     <div className="max-w-4xl mx-auto p-6">
       {/* Product Name */}
-      <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+      
 
       {/* Product Image */}
       <Image
-        src={(product.imageUrl)}
+        src={product.imageUrl}
         alt={product.name}
         width={600}
         height={600}
-        className="rounded-lg"
+        className="rounded-lg" // Removed background and kept the rounded corners
       />
 
       <div className="mt-6">
+      <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
         {/* Product Price */}
         <p className="text-lg">
-          Price: <strong>${product.price}</strong>
+          Price: <strong>{product.price}</strong>
         </p>
 
         {/* Product Description */}
@@ -74,7 +74,6 @@ export async function generateStaticParams() {
     `*[_type == "product"]{ "slug": slug.current }`
   );
   
-
   // Return slugs as an array of objects
   return products.map((product) => ({
     slug: product.slug.current, // Each product's slug for dynamic routing

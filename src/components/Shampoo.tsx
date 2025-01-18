@@ -1,75 +1,63 @@
-'use client'
-import { client } from "@/sanity/lib/client"; // Sanity client import karein
+"use client";
+
+import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-import { useEffect, useState } from "react"; // Hooks import karein
-
-// Define a Product interface
 interface Product {
   _id: string;
   name: string;
-  description: string;
   price: number;
   slug: { current: string };
-  category: string;
-  stock: number;
   imageUrl: string;
 }
 
-const First = ({ category }: { category: string }) => {
-  const [products, setProducts] = useState<Product[]>([]); // Products ko store karne ke liye state
-  const [loading, setLoading] = useState<boolean>(true); // Loading ko track karne ke liye state
+const Shampoo = ({ category }: { category: string }) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetching data when the component mounts
   useEffect(() => {
-    const fetchData = async () => {
-      const query = await client.fetch(
-        `*[_type == "product" && category == "mshampoo"] {
-  _id,
-  name,
-  description,
-  price,
-  slug,
-  stock,
-  category,
-  "imageUrl": image.asset->url
-}`,
-        { category } // Passing the dynamic category to the query
-      );
-      setProducts(query); // Fetched data ko state mein store karein
-      setLoading(false); // Loading ko false kar dein
+    const fetchProducts = async () => {
+      const query = `*[_type == "product" && category == $category] {
+        _id, name, price, slug, "imageUrl": image.asset->url
+      }`;
+      const fetchedProducts = await client.fetch(query, { category });
+      setProducts(fetchedProducts);
+      setLoading(false);
     };
 
-    fetchData(); // Function call to fetch data
-  }, [category]); // Re-run the effect when category changes
+    fetchProducts();
+  }, [category]);
 
-  if (loading) {
-    return <p>Loading...</p>; // Loading message show karein jab tak data fetch hota hai
-  }
-
-  if (!products.length) {
-    return <p>No products found.</p>; // Agar products nahi hain to message show karein
-  }
+  if (loading) return <p className="text-center">Loading...</p>;
+  if (!products.length) return <p className="text-center">No products found in {category}.</p>;
 
   return (
-    <div>
-      {products.map((product) => (
-        <div key={product._id} className="product-card">
-          <h1>{product.name}</h1>
-          <p>{product.price}</p>
-          <Link href={`daynamic/${product.slug.current}`}>
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              width={100}
-              height={100}
-            />
-          </Link>
-        </div>
-      ))}
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold text-center mb-6">Shampoo</h1>
+      <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {products.map((product) => (
+          <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg">
+            <Link href={`/men/shampoo/${product.slug.current}`} className="block text-center">
+              {/* Add a container with a light background for the image */}
+              <div className="bg-gray-100 p-4 rounded-lg mb-4">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={300}
+                  height={300}
+                  className="mx-auto object-contain"
+                />
+              </div>
+              <h2 className="text-lg font-semibold">{product.name}</h2>
+              <p className="text-gray-700">Price: {product.price}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default First;
+export default Shampoo;

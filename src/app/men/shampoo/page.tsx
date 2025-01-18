@@ -1,14 +1,15 @@
 
-import First from "@/components/Shampoo"
-import Link from "next/link"
+import Shampoo from "@/components/Shampoo";
 
-export default function Shampoo(){
-  return(
-    <div className="">
-      <Link href='daynamic'> 
-    <First category="mshampoo"/>
-      </Link>
-     
+
+
+
+const ShampooPage = () => {
+  return (
+    <div>
+     <Shampoo category="mshampoo"/>
     </div>
-  )
-}
+  );
+};
+
+export default ShampooPage;
