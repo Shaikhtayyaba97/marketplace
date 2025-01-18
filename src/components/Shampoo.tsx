@@ -36,22 +36,25 @@ const Shampoo = ({ category }: { category: string }) => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-center mb-6">Shampoo</h1>
-      <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg">
-            <Link href={`/men/shampoo/${product.slug.current}`} className="block text-center">
-              {/* Add a container with a light background for the image */}
-              <div className="bg-gray-100 p-4 rounded-lg mb-4">
+          <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+            <Link href={`/men/shampoo/${product.slug.current}`} className="block w-full">
+              {/* Image Container */}
+              <div className="bg-gray-100 p-4 rounded-lg mb-4 flex justify-center items-center">
                 <Image
                   src={product.imageUrl}
                   alt={product.name}
-                  width={300}
-                  height={300}
-                  className="mx-auto object-contain"
+                  width={200}
+                  height={200}
+                  className="object-contain"
                 />
               </div>
-              <h2 className="text-lg font-semibold">{product.name}</h2>
-              <p className="text-gray-700">Price: {product.price}</p>
+              {/* Name and Price */}
+              <div className="text-center">
+                <h2 className="text-lg font-semibold mb-2">{product.name}</h2>
+                <p className="text-gray-700 font-medium">Price: ${product.price}</p>
+              </div>
             </Link>
           </li>
         ))}

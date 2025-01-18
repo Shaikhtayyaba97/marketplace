@@ -1,20 +1,43 @@
 import Link from "next/link";
 
 const MenPage = () => {
-  const subcategories = ["shampoo", "face-Wash", "Rings" ,"Watches", "Bracelets"];
+  const subcategories = [
+    { name: "Shampoo", image: "/mshampoo.jpg" },
+    { name: "Face Wash", image: "/menfw.jpg" },
+    { name: "Rings", image: "/menring.jpg" },
+    { name: "Watches", image: "/menwatch.jpg" },
+    { name: "Bracelets", image: "/menbraclet.jpg" },
+  ];
 
   return (
-    <div>
-      <h1>Men Categories</h1>
-      <ul>
-        {subcategories.map((subcategory) => (
-          <li key={subcategory}>
-            <Link href={`/men/${subcategory}`}>
-              <button>{subcategory.toUpperCase()}</button>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="bg-gray-50 min-h-screen py-8">
+      <div className="container mx-auto px-4">
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Men Categories</h1>
+        <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {subcategories.map((subcategory) => (
+            <li key={subcategory.name} className="text-center">
+              <Link
+                href={`/men/${subcategory.name.toLowerCase().replace(" ", "-")}`}
+                className="block group"
+              >
+                {/* Image with rounded shape */}
+                <div className="w-32 h-32 mx-auto overflow-hidden rounded-full mb-4 group-hover:opacity-80 transition-opacity">
+                  <img
+                    src={subcategory.image}
+                    alt={subcategory.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Button */}
+                <button className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors">
+                  {subcategory.name}
+                </button>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
