@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const HomePage = () => {
-  const categories = ["Women", "Menn", "Kids", "Customize"];
+  const categories = ["Women", "Men", "Kids", "Customize"];
 
   return (
     <div>
