@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <header className="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
       {/* Left Side: Hamburger Menu Icon (Mobile Only) */}
-      <div className="md:hidden flex items-center">
+      <div className="md:hidden flex items-center space-x-4">
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -18,13 +18,25 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Left Side: Logo (Desktop) */}
-      <div className="text-3xl font-bold font-serif text-gradient bg-clip-text hover:text-gray-300 transition-all duration-300 ease-in-out transform hover:scale-110 flex-shrink-0 hidden md:flex">
+      {/* Center: Logo (Mobile) */}
+      <div className="text-3xl font-bold font-serif text-gradient bg-clip-text hover:text-gray-300 transition-all duration-300 ease-in-out transform hover:scale-110 flex-shrink-0 md:hidden flex-1 text-center">
         <Link href="/">A to Z</Link>
       </div>
 
-      {/* Center: Logo (Mobile) */}
-      <div className="text-3xl font-bold font-serif text-gradient bg-clip-text hover:text-gray-300 transition-all duration-300 ease-in-out transform hover:scale-110 flex-shrink-0 md:hidden flex-1 text-center">
+      {/* Right Side: Shopping Cart (Mobile) */}
+      <div className="relative flex items-center space-x-2 md:hidden absolute right-6 top-2">
+        <Link href="/cart" className="flex items-center space-x-2">
+          <ShoppingCartIcon className="h-7 w-7 text-white hover:text-gray-300" />
+        </Link>
+        {cartCount > 0 && (
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-sm rounded-full h-5 w-5 flex items-center justify-center">
+            {cartCount}
+          </span>
+        )}
+      </div>
+
+      {/* Left Side: Logo (Desktop) */}
+      <div className="text-3xl font-bold font-serif text-gradient bg-clip-text hover:text-gray-300 transition-all duration-300 ease-in-out transform hover:scale-110 flex-shrink-0 hidden md:flex">
         <Link href="/">A to Z</Link>
       </div>
 
@@ -73,18 +85,6 @@ const Header = () => {
           </Link>
         </div>
       )}
-
-      {/* Right Side: Shopping Cart (Mobile) */}
-      <div className="relative flex items-center space-x-2 md:hidden absolute right-6 top-4">
-        <Link href="/cart" className="flex items-center space-x-2">
-          <ShoppingCartIcon className="h-6 w-6 text-white hover:text-gray-300" />
-        </Link>
-        {cartCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-sm rounded-full h-5 w-5 flex items-center justify-center">
-            {cartCount}
-          </span>
-        )}
-      </div>
     </header>
   );
 };
