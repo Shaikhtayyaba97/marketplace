@@ -35,7 +35,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
     { slug }
   );
 
-  // If the product is not found, show a 404 page
+  // If the product is not found, show a 404 page 
   if (!product) {
     notFound();
   }

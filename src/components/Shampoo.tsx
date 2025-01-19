@@ -4,6 +4,7 @@ import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useCart } from "@/context/useCart"; // Import the CartContext
 
 interface Product {
   _id: string;
@@ -14,6 +15,7 @@ interface Product {
 }
 
 const Shampoo = ({ category }: { category: string }) => {
+  const { addToCart } = useCart(); // Use Cart Context
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -62,6 +64,24 @@ const Shampoo = ({ category }: { category: string }) => {
 
             {/* Price */}
             <p className="text-gray-700 font-medium">Price: {product.price}</p>
+
+            {/* Add to Cart Button */}
+            <div className="flex justify-center items-center space-x-4 mt-4">
+              <button
+                onClick={() =>
+                  addToCart({
+                    id: product._id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1, // Start with quantity 1 when adding to the cart
+                    image: product.imageUrl,
+                  })
+                }
+                className="bg-black text-white py-2 px-4 rounded-lg"
+              >
+                Add to Cart
+              </button>
+            </div>
           </li>
         ))}
       </ul>
