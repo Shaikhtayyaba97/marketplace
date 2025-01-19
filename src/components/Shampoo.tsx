@@ -61,7 +61,7 @@ const Shampoo = ({ category }: { category: string }) => {
             </Link>
 
             {/* Price */}
-            <p className="text-gray-700 font-medium">Price: ${product.price}</p>
+            <p className="text-gray-700 font-medium">Price: {product.price}</p>
           </li>
         ))}
       </ul>

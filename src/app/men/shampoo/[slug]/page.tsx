@@ -57,7 +57,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       <div className="mt-6">
         {/* Product Price */}
         <p className="text-lg">
-          Price: <strong>${product.price}</strong>
+          Price: <strong>{product.price}</strong>
         </p>
 
         {/* Product Description */}
