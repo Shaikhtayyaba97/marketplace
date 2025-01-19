@@ -18,15 +18,15 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Center: Logo (Mobile) */}
-      <div className="text-3xl font-bold font-serif text-gradient bg-clip-text hover:text-gray-300 transition-all duration-300 ease-in-out transform hover:scale-110 flex-shrink-0 md:hidden flex-1 text-center">
+      {/* Center: Logo (Mobile) - Fancy A to Z */}
+      <div className="text-4xl font-bold font-serif text-gradient bg-clip-text hover:text-gray-300 transition-all duration-300 ease-in-out transform hover:scale-110 flex-shrink-0 md:hidden flex-1 text-center">
         <Link href="/">A to Z</Link>
       </div>
 
       {/* Right Side: Shopping Cart (Mobile) */}
-      <div className="relative flex items-center space-x-2 md:hidden absolute right-6 top-2">
+      <div className="relative flex items-center space-x-2 md:hidden absolute right-4 top-2">
         <Link href="/cart" className="flex items-center space-x-2">
-          <ShoppingCartIcon className="h-7 w-7 text-white hover:text-gray-300" />
+          <ShoppingCartIcon className="h-6 w-6 text-white hover:text-gray-300" />
         </Link>
         {cartCount > 0 && (
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-sm rounded-full h-5 w-5 flex items-center justify-center">
