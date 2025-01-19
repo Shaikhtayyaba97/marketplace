@@ -1,7 +1,6 @@
-'use client'
-import React, { createContext, useState, ReactNode } from "react";
+"use client";
+import { createContext, useState, useEffect, ReactNode } from "react";
 
-// Cart item type
 interface CartItem {
   id: string;
   name: string;
@@ -10,46 +9,55 @@ interface CartItem {
   image: string;
 }
 
-// Context type definition
-interface CartContextType {
+interface CartContextProps {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
   removeItem: (id: string) => void;
   increaseQuantity: (id: string) => void;
   decreaseQuantity: (id: string) => void;
+  clearCart: () => void;
 }
 
-// Default context value
-const defaultCartContext: CartContextType = {
-  cartItems: [],
-  addToCart: () => {},
-  removeItem: () => {},
-  increaseQuantity: () => {},
-  decreaseQuantity: () => {},
-};
+export const CartContext = createContext<CartContextProps | undefined>(undefined);
 
-// Create context
-export const CartContext = createContext<CartContextType>(defaultCartContext); // Export the context
-
-interface CartProviderProps {
-  children: ReactNode;
-}
-
-// CartProvider component
-export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
+export const CartProvider = ({ children }: { children: ReactNode }) => {
+  // Initialize cart from localStorage or default to an empty array
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  // Add item to cart
+  useEffect(() => {
+    // Load cart from localStorage if available
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
+    }
+  }, []);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+    }
+  }, [cartItems]);
+
   const addToCart = (item: CartItem) => {
-    setCartItems((prevItems) => [...prevItems, item]);
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find((cartItem) => cartItem.id === item.id);
+      if (existingItem) {
+        return prevItems.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      } else {
+        return [...prevItems, { ...item, quantity: 1 }];
+      }
+    });
   };
 
-  // Remove item from cart
   const removeItem = (id: string) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  // Increase item quantity in cart
   const increaseQuantity = (id: string) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
@@ -58,7 +66,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     );
   };
 
-  // Decrease item quantity in cart
   const decreaseQuantity = (id: string) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
@@ -69,9 +76,14 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     );
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("cart"); // Clear from localStorage as well
+  };
+
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeItem, increaseQuantity, decreaseQuantity }}
+      value={{ cartItems, addToCart, removeItem, increaseQuantity, decreaseQuantity, clearCart }}
     >
       {children}
     </CartContext.Provider>

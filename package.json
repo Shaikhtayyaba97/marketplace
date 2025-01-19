@@ -12,8 +12,10 @@
     "@heroicons/react": "^2.2.0",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.70.0",
+    "axios": "^1.7.9",
     "next": "14.2.2",
     "next-sanity": "^9.8.37",
+    "nodemailer": "^6.9.16",
     "react": "^18",
     "react-dom": "^18",
     "sanity": "^3.70.0",
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",

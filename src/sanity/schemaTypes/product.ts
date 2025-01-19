@@ -17,6 +17,12 @@ export default {
       },
       },
       {
+        name: 'product',
+        title: 'Product',
+        type: 'reference',
+        to: [{ type: 'product' }],
+      },
+      {
         name: 'category',
         title: 'Category',
         type: 'string',
