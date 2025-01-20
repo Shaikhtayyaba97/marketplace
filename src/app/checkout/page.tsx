@@ -1,118 +1,79 @@
 'use client';
-
-import { useCart } from '@/context/useCart'; // Cart context to manage items
 import { useState } from 'react';
+import axios from 'axios';
 
-const CheckoutPage = () => {
-  const { cartItems, clearCart } = useCart(); // Fetch cart items from context
-  const [formData, setFormData] = useState({
-    customerName: '',
-    email: '',
-    phone: '',
-    address: '',
-  });
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+const Checkout = () => {
+  const [customerName, setCustomerName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [cartItems, setCartItems] = useState<any[]>([]); // Cart items from context or local storage
+  const [totalAmount, setTotalAmount] = useState(0); // Total amount from cart
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const handleCheckout = async () => {
-    // Validation
-    if (!formData.customerName || !formData.email || !formData.phone || !formData.address) {
-      alert('Please fill all the fields');
-      return;
-    }
-
-    setLoading(true);
+    const orderData = {
+      customerName,
+      email,
+      phone,
+      address,
+      city,
+      cartItems,
+      totalAmount,
+      orderId: `ORD-${Math.floor(Math.random() * 10000)}`, // Order ID generation logic
+    };
 
     try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          cartItems, // Cart items
-          totalPrice: cartItems.reduce((total, item) => total + item.price * item.quantity, 0), // Calculate total
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage('Order placed successfully!');
-        clearCart(); // Empty the cart
-      } else {
-        console.error(data.error);
-        setMessage('Failed to place order.');
-      }
+      const response = await axios.post('/api/orders', orderData);
+      alert('Order submitted successfully!');
+      // Redirect or reset form
     } catch (error) {
-      console.error(error);
-      setMessage('Something went wrong.');
-    } finally {
-      setLoading(false);
+      alert('Error submitting order');
     }
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-4xl font-bold mb-6">Checkout</h1>
-
-      {message && (
-        <div
-          className={`mb-6 p-4 text-center rounded ${
-            message.includes('successfully') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-          }`}
-        >
-          {message}
-        </div>
-      )}
-
-      <div className="grid gap-4 mb-6">
-        <input
-          type="text"
-          name="customerName"
-          placeholder="Your Name"
-          value={formData.customerName}
-          onChange={handleChange}
-          className="border p-3 rounded w-full"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value={formData.email}
-          onChange={handleChange}
-          className="border p-3 rounded w-full"
-        />
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone Number"
-          value={formData.phone}
-          onChange={handleChange}
-          className="border p-3 rounded w-full"
-        />
-        <input
-          type="text"
-          name="address"
-          placeholder="Delivery Address"
-          value={formData.address}
-          onChange={handleChange}
-          className="border p-3 rounded w-full"
-        />
-      </div>
-
-      <button
-        onClick={handleCheckout}
-        className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-500 transition"
-        disabled={loading}
-      >
-        {loading ? 'Processing...' : 'Place Order'}
-      </button>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={customerName}
+        onChange={(e) => setCustomerName(e.target.value)}
+        placeholder="Customer Name"
+        required
+      />
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+        required
+      />
+      <input
+        type="text"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        placeholder="Phone"
+        required
+      />
+      <input
+        type="text"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        placeholder="Address"
+        required
+      />
+      <input
+        type="text"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        placeholder="City"
+        required
+      />
+      <button type="submit">Submit Order</button>
+    </form>
   );
 };
 
-export default CheckoutPage;
+export default Checkout;

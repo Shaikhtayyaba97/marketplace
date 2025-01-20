@@ -16,12 +16,7 @@ export default {
          maxLength:200,
       },
       },
-      {
-        name: 'product',
-        title: 'Product',
-        type: 'reference',
-        to: [{ type: 'product' }],
-      },
+      
       {
         name: 'category',
         title: 'Category',
