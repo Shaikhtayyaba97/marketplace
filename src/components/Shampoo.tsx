@@ -1,10 +1,10 @@
-"use client";
-
+'use client'
+// components/Shampoo.tsx
+import { useCart } from "@/context/CartContext"; // Importing the custom hook
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useCart } from "@/context/useCart"; // Import the CartContext
+import { useState, useEffect } from "react";
 
 interface Product {
   _id: string;
@@ -15,7 +15,7 @@ interface Product {
 }
 
 const Shampoo = ({ category }: { category: string }) => {
-  const { addToCart } = useCart(); // Use Cart Context
+  const { addToCart } = useCart(); // Accessing addToCart from CartContext
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -32,19 +32,15 @@ const Shampoo = ({ category }: { category: string }) => {
     fetchProducts();
   }, [category]);
 
-  if (loading) return <p className="text-center">Loading...</p>;
-  if (!products.length) return <p className="text-center">No products found in {category}.</p>;
+  if (loading) return <p>Loading...</p>;
+  if (!products.length) return <p>No products found in {category}.</p>;
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-center mb-6">Shampoo</h1>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <li
-            key={product._id}
-            className="bg-white p-4 rounded-lg shadow-lg text-center space-y-4"
-          >
-            {/* Image */}
+          <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg text-center">
             <div className="bg-gray-100 p-4 rounded-md">
               <Link href={`/men/shampoo/${product.slug.current}`}>
                 <Image
@@ -56,32 +52,25 @@ const Shampoo = ({ category }: { category: string }) => {
                 />
               </Link>
             </div>
-
-            {/* Name */}
             <Link href={`/men/shampoo/${product.slug.current}`}>
               <h2 className="text-lg font-semibold">{product.name}</h2>
             </Link>
-
-            {/* Price */}
             <p className="text-gray-700 font-medium">Price: {product.price}</p>
 
-            {/* Add to Cart Button */}
-            <div className="flex justify-center items-center space-x-4 mt-4">
-              <button
-                onClick={() =>
-                  addToCart({
-                    id: product._id,
-                    name: product.name,
-                    price: product.price,
-                    quantity: 1, // Start with quantity 1 when adding to the cart
-                    image: product.imageUrl,
-                  })
-                }
-                className="bg-black text-white py-2 px-4 rounded-lg"
-              >
-                Add to Cart
-              </button>
-            </div>
+            <button
+              onClick={() =>
+                addToCart({
+                  id: product._id,
+                  name: product.name,
+                  price: product.price,
+                  quantity: 1,
+                  image: product.imageUrl,
+                })
+              }
+              className="bg-black text-white py-2 px-4 rounded-lg mt-4"
+            >
+              Add to Cart
+            </button>
           </li>
         ))}
       </ul>

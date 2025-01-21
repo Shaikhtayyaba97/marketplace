@@ -1,21 +1,23 @@
-'use client'
+'use client';
+
 import Link from "next/link";
 import { useState } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { useCart } from "@/context/useCart";
+import { useCart } from "@/context/CartContext"; // CartContext ko import karna
 
 const Header = () => {
-  const { cartItems } = useCart(); // Get cart items from CartContext
+  const { cartItems } = useCart(); // Cart items ko CartContext se fetch karna
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const cartCount = cartItems.length; // Get the count of items in the cart
+  // Cart mein total quantity calculate karna
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <header className="bg-white text-black px-6 py-4 flex justify-between items-center">
       {/* Left Side: Hamburger Menu Icon (Mobile Only) */}
       <div className="md:hidden flex items-center space-x-4">
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          <svg className="h-6 w-6 text-black " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg className="h-6 w-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
