@@ -56,7 +56,7 @@ const CartPage = () => {
                 <p className="mt-2 font-semibold">Subtotal: ${item.price * item.quantity}</p>
                 <button
                   onClick={() => removeFromCart(item.id)}
-                  className="mt-2 text-red-500 hover:underline"
+                  className="mt-2 text-red-700 hover:underline"
                 >
                   Remove
                 </button>
@@ -84,7 +84,7 @@ const CartPage = () => {
           {/* Checkout Button */}
           <button
             onClick={handleCheckout}
-            className="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg text-lg hover:bg-blue-700 transition duration-300"
+            className="mt-6 w-full bg-[#6EC207] text-white py-3 rounded-lg text-lg hover:bg-blue-700 transition duration-300"
           >
             Proceed to Checkout
           </button>

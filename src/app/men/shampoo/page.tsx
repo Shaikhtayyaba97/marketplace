@@ -6,7 +6,7 @@ import Shampoo from "@/components/Shampoo";
 
 const ShampooPage = () => {
   return (
-    <div>
+    <div >
      <Shampoo category="mshampoo"/>
     </div>
   );

@@ -1,11 +1,9 @@
-
-
 const HomePage = () => {
   
 
   return (
     <div>
-      hhhhh
+    uuu
     </div>
   );
 };

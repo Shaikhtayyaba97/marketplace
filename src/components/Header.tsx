@@ -17,7 +17,7 @@ const Header = () => {
       {/* Left Side: Hamburger Menu Icon (Mobile Only) */}
       <div className="md:hidden flex items-center space-x-4">
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          <svg className="h-6 w-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
@@ -34,7 +34,7 @@ const Header = () => {
           <ShoppingCartIcon className="h-6 w-6 text-black hover:text-gray-300" />
         </Link>
         {cartCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-500 text-black text-sm rounded-full h-5 w-5 flex items-center justify-center">
+          <span className="absolute -top-2 -right-2 bg-[[#6EC207]] text-black text-sm rounded-full h-5 w-5 flex items-center justify-center">
             {cartCount}
           </span>
         )}
@@ -59,7 +59,7 @@ const Header = () => {
           <ShoppingCartIcon className="h-6 w-6 text-black hover:text-gray-300" />
         </Link>
         {cartCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-500 text-black text-sm rounded-full h-5 w-5 flex items-center justify-center">
+          <span className="absolute -top-2 -right-2 bg-[#6EC207] text-black text-sm rounded-full h-5 w-5 flex items-center justify-center">
             {cartCount}
           </span>
         )}

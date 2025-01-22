@@ -41,7 +41,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 ">
       {/* Product Name */}
       <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
 
