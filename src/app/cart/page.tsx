@@ -44,14 +44,14 @@ const CartPage = () => {
                 <div className="flex items-center mt-2">
                   <button
                     onClick={() => decrementQuantity(item.id)}
-                    className="px-4 py-2 text-white bg-gray-500 rounded-md"
+                    className="px-4 py-2 text-white bg-black rounded-md"
                   >
                     -
                   </button>
                   <span className="mx-4 text-lg">{item.quantity}</span>
                   <button
                     onClick={() => incrementQuantity(item.id)}
-                    className="px-4 py-2 text-white bg-gray-500 rounded-md"
+                    className="px-4 py-2 text-white bg-black rounded-md"
                   >
                     +
                   </button>
