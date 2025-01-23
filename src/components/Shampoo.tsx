@@ -1,4 +1,5 @@
 'use client';
+
 import { useCart } from "@/context/CartContext";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
@@ -18,13 +19,14 @@ const Shampoo = ({ category }: { category: string }) => {
   const { addToCart } = useCart();
   const { searchQuery } = useSearch(); // Access the searchQuery
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true); // Use lowercase 'boolean'
 
   useEffect(() => {
     const fetchProducts = async () => {
       const query = `*[_type == "product" && category == $category] {
         _id, name, price, slug, "imageUrl": image.asset->url
       }`;
+
       const fetchedProducts = await client.fetch(query, { category });
       setProducts(fetchedProducts);
       setLoading(false);
@@ -39,7 +41,8 @@ const Shampoo = ({ category }: { category: string }) => {
   );
 
   if (loading) return <p>Loading...</p>;
-  if (!filteredProducts.length) return <p>No products found for "{searchQuery}".</p>;
+  if (!filteredProducts.length)
+    return <p>No products found for "{searchQuery}".</p>;
 
   return (
     <div className="container mx-auto p-4">
@@ -61,8 +64,9 @@ const Shampoo = ({ category }: { category: string }) => {
             <Link href={`/men/shampoo/${product.slug.current}`}>
               <h2 className="text-lg font-semibold">{product.name}</h2>
             </Link>
-            <p className="text-gray-700 font-medium">Price: {product.price}</p>
-
+            <p className="text-gray-700 font-medium">
+              Price: ${product.price.toFixed(2)} {/* Format the price */}
+            </p>
             <button
               onClick={() =>
                 addToCart({

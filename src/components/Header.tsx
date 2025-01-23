@@ -45,7 +45,8 @@ const Header = () => {
             </defs>
             <circle cx="50" cy="50" r="45" stroke="url(#grad1)" strokeWidth="4" fill="none" />
             <text x="50%" y="50%" textAnchor="middle" alignmentBaseline="middle" fontSize="18" fill="url(#grad1)" fontWeight="bold">
-              A to Z
+            A &quot;to&quot; Z
+
             </text>
           </svg>
         </Link>
