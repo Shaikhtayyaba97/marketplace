@@ -41,8 +41,9 @@ const Shampoo = ({ category }: { category: string }) => {
   );
 
   if (loading) return <p>Loading...</p>;
+
   if (!filteredProducts.length)
-    return <p>No products found for "{searchQuery}".</p>;
+    return <p>No products found for &quot;{searchQuery}&quot;.</p>;
 
   return (
     <div className="container mx-auto p-4">
