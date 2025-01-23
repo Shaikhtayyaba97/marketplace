@@ -1,10 +1,10 @@
-'use client'
-// components/Shampoo.tsx
-import { useCart } from "@/context/CartContext"; // Importing the custom hook
+'use client';
+import { useCart } from "@/context/CartContext";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useSearch } from "@/context/ProductContext"; // Import useSearch
 
 interface Product {
   _id: string;
@@ -15,7 +15,8 @@ interface Product {
 }
 
 const Shampoo = ({ category }: { category: string }) => {
-  const { addToCart } = useCart(); // Accessing addToCart from CartContext
+  const { addToCart } = useCart();
+  const { searchQuery } = useSearch(); // Access the searchQuery
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -32,14 +33,19 @@ const Shampoo = ({ category }: { category: string }) => {
     fetchProducts();
   }, [category]);
 
+  // Filter products based on search query globally
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (loading) return <p>Loading...</p>;
-  if (!products.length) return <p>No products found in {category}.</p>;
+  if (!filteredProducts.length) return <p>No products found for "{searchQuery}".</p>;
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-center mb-6">Shampoo</h1>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg text-center">
             <div className="bg-gray-100 p-4 rounded-md">
               <Link href={`/men/shampoo/${product.slug.current}`}>

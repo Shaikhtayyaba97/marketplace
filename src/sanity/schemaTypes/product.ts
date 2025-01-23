@@ -74,6 +74,13 @@ export default {
         },
       },
       {
+        name: 'tags',
+        title: 'Tags',
+        type: 'array',
+        of: [{ type: 'string' }],
+        description: 'Keywords related to this product for better search results',
+      },
+      {
         name: 'price',
         title: 'Price',
         type: 'number',

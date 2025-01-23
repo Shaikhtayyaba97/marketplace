@@ -6,6 +6,8 @@ import { CartProvider } from "@/context/CartContext";
 import Sheader from "@/components/Sheader";
 import Uheader from "@/components/Uheader";
 import Footer from "@/components/Footer";
+import { ProductProvider } from "@/context/ProductContext";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,12 +27,15 @@ export default function RootLayout({
       
       <body className={inter.className}>
       <CartProvider>
+        <ProductProvider>
         <Sheader/>
       <Header/>
       <Uheader/>
        {children}
        <Footer/>
-      </CartProvider> </body>
+       </ProductProvider>
+       </CartProvider>
+       </body>
       
 
     </html>
