@@ -1,8 +1,8 @@
-'use client';  // Mark as client component
+'use client'; // Mark as client component
 
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
-import { useRouter } from "next/navigation";  // For navigation
+import { useRouter } from "next/navigation";  // Correct import for app directory
 
 const CartPage = () => {
   const { cartItems, removeFromCart, incrementQuantity, decrementQuantity } = useCart();

@@ -12,19 +12,26 @@ interface CartItem {
 
 interface CartContextType {
   cartItems: CartItem[];
+  totalPrice: number;
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
   incrementQuantity: (id: string) => void;
   decrementQuantity: (id: string) => void;
 }
 
+type CartAction =
+  | { type: 'ADD_TO_CART'; payload: CartItem }
+  | { type: 'REMOVE_FROM_CART'; payload: string }
+  | { type: 'INCREMENT_QUANTITY'; payload: string }
+  | { type: 'DECREMENT_QUANTITY'; payload: string }
+  | { type: 'LOAD_CART'; payload: CartItem[] };
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const cartReducer = (state: CartItem[], action: any) => {
+const cartReducer = (state: CartItem[], action: CartAction): CartItem[] => {
   switch (action.type) {
     case 'ADD_TO_CART': {
       const existingItem = state.find((item) => item.id === action.payload.id);
-
       if (existingItem) {
         return state.map((item) =>
           item.id === action.payload.id
@@ -32,7 +39,6 @@ const cartReducer = (state: CartItem[], action: any) => {
             : item
         );
       }
-
       return [...state, action.payload];
     }
 
@@ -72,8 +78,16 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
+    if (cartItems.length > 0) {
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+    }
   }, [cartItems]);
+
+  // Calculate total price
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
   const addToCart = (item: CartItem) =>
     dispatch({ type: 'ADD_TO_CART', payload: { ...item, quantity: 1 } });
@@ -88,7 +102,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, incrementQuantity, decrementQuantity }}
+      value={{
+        cartItems,
+        totalPrice,
+        addToCart,
+        removeFromCart,
+        incrementQuantity,
+        decrementQuantity
+      }}
     >
       {children}
     </CartContext.Provider>
