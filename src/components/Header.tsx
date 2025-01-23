@@ -1,4 +1,5 @@
 'use client';
+import Image from "next/image";
 
 import Link from "next/link";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
@@ -87,7 +88,7 @@ const Header = () => {
                 href={`/${product.category}/${product.slug.current}`}
                 className="flex items-center p-4 hover:bg-gray-100"
               >
-                <img
+                <Image
                   src={product.imageUrl}
                   alt={product.name}
                   width={40}
@@ -101,7 +102,7 @@ const Header = () => {
               </Link>
             ))
           ) : (
-            <p className="p-4">No products found for "{searchQuery}".</p>
+            <p>No products found for &quot;{searchQuery}&quot;.</p>
           )}
         </div>
       )}

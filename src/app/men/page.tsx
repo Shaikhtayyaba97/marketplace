@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const MenPage = () => {
   const subcategories = [
@@ -22,9 +23,11 @@ const MenPage = () => {
               >
                 {/* Image with rounded shape */}
                 <div className="w-32 h-32 mx-auto overflow-hidden rounded-full mb-4 group-hover:opacity-80 transition-opacity">
-                  <img
+                  <Image
                     src={subcategory.image}
                     alt={subcategory.name}
+                    width={150}
+                    height={150}
                     className="w-full h-full object-cover"
                   />
                 </div>

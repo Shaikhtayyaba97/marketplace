@@ -1,5 +1,6 @@
 'use client';  // Mark as client component
 
+import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";  // For navigation
 
@@ -30,9 +31,11 @@ const CartPage = () => {
               key={item.id}
               className="flex items-center justify-between bg-white shadow-lg rounded-lg p-4 space-x-6"
             >
-              <img
+              <Image
                 src={item.image}
                 alt={item.name}
+                width={100}
+                height={100}
                 className="w-24 h-24 object-cover rounded-md"
               />
               <div className="flex-1">
