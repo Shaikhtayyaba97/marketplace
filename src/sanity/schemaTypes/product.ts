@@ -69,7 +69,13 @@ export default {
             { title: 'Toys', value: 'toys' },
             { title: 'Baby Set', value: 'babyset' },
             { title: 'Kids Ring', value: 'kring' },
-            { title: 'Customized', value: 'customized' },
+            { title: 'Customized', value: 'customized' }
+
+
+
+
+
+
           ],
         },
       },

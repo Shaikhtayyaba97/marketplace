@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { useCart } from "@/context/CartContext";
 import { client } from "@/sanity/lib/client";
@@ -52,7 +52,7 @@ const Shampoo = ({ category }: { category: string }) => {
         {filteredProducts.map((product) => (
           <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg text-center">
             <div className="bg-gray-100 p-4 rounded-md">
-              <Link href={`/men/shampoo/${product.slug.current}`}>
+              <Link href={`/women/shampoo/${product.slug.current}`}>
                 <Image
                   src={product.imageUrl}
                   alt={product.name}
@@ -62,11 +62,11 @@ const Shampoo = ({ category }: { category: string }) => {
                 />
               </Link>
             </div>
-            <Link href={`/men/shampoo/${product.slug.current}`}>
+            <Link href={`/women/shampoo/${product.slug.current}`}>
               <h2 className="text-lg font-semibold">{product.name}</h2>
             </Link>
             <p className="text-gray-700 font-medium">
-              Price: ${product.price.toFixed(2)} {/* Format the price */}
+              Price: {product.price.toFixed(2)} {/* Format the price */}
             </p>
             <button
               onClick={() =>

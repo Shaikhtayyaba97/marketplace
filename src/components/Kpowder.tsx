@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { useCart } from "@/context/CartContext";
 import { client } from "@/sanity/lib/client";
@@ -15,7 +15,7 @@ interface Product {
   imageUrl: string;
 }
 
-const Facewash = ({ category }: { category: string }) => {
+const Kpowder = ({ category }: { category: string }) => {
   const { addToCart } = useCart();
   const { searchQuery } = useSearch(); // Access the searchQuery
   const [products, setProducts] = useState<Product[]>([]);
@@ -47,12 +47,12 @@ const Facewash = ({ category }: { category: string }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">FaceWash</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">Shampoo</h1>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
           <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg text-center">
             <div className="bg-gray-100 p-4 rounded-md">
-              <Link href={`/men/facewash/${product.slug.current}`}>
+              <Link href={`/kids/powder/${product.slug.current}`}>
                 <Image
                   src={product.imageUrl}
                   alt={product.name}
@@ -62,7 +62,7 @@ const Facewash = ({ category }: { category: string }) => {
                 />
               </Link>
             </div>
-            <Link href={`/men/facewash/${product.slug.current}`}>
+            <Link href={`/kids/powder/${product.slug.current}`}>
               <h2 className="text-lg font-semibold">{product.name}</h2>
             </Link>
             <p className="text-gray-700 font-medium">
@@ -89,4 +89,4 @@ const Facewash = ({ category }: { category: string }) => {
   );
 };
 
-export default Facewash;
+export default Kpowder;
