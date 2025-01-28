@@ -6,8 +6,8 @@ const MenPage = () => {
     { name: "Shampoo", image: "/mshampoo.jpg" },
     { name: "Facewash", image: "/menfw.jpg" },
     { name: "Ring", image: "/menring.jpg" },
-    { name: "Watches", image: "/menwatch.jpg" },
-    { name: "Bracelets", image: "/menbraclet.jpg" },
+    { name: "Watch", image: "/menwatch.jpg" },
+    { name: "Bracelet", image: "/menbraclet.jpg" },
   ];
 
   return (
