@@ -1,24 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const MenPage = () => {
+const KidPage = () => {
   const subcategories = [
-    { name: "Shampoo", image: "/mshampoo.jpg" },
-    { name: "Facewash", image: "/wfacewash.jpg" },
-    { name: "Ring", image: "/wring.jpg" },
-    { name: "Watches", image: "/wwatch.jpg" },
-    { name: "Bracelets", image: "/wbracelet.jpg" },
+    { name: "Ring", image: "/cring.jpg" },
+    { name: "Bracelet", image: "/cbracelet.jpg" },
+    { name: "Locket", image: "/clocket.jpg" },
+    { name: "Earring", image: "/cearring.jpg" },
+    { name: "mug", image: "/ccup.jpg" },
   ];
 
   return (
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Women Categories</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Kids Categories</h1>
         <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {subcategories.map((subcategory) => (
             <li key={subcategory.name} className="text-center">
               <Link
-                href={`/women/${subcategory.name.toLowerCase().replace(" ", "-")}`}
+                href={`/customize/${subcategory.name.toLowerCase().replace(" ", "-")}`}
                 className="block group"
               >
                 {/* Image with rounded shape */}
@@ -45,4 +45,4 @@ const MenPage = () => {
   );
 };
 
-export default MenPage;
+export default KidPage;

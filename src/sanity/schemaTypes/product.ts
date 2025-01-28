@@ -69,7 +69,11 @@ export default {
             { title: 'Toys', value: 'toys' },
             { title: 'Baby Set', value: 'babyset' },
             { title: 'Kids Ring', value: 'kring' },
-            { title: 'Customized', value: 'customized' }
+            { title: 'CEarring', value: 'cearring' },
+            { title: 'Cring', value: 'cring' },
+            { title: 'Cbraclet', value: 'cbraclet' },
+            { title: 'Clocket', value: 'clocket' },
+            { title: 'Cmug', value: 'cmug' },
 
 
 

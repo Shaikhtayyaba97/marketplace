@@ -5,7 +5,7 @@ const MenPage = () => {
   const subcategories = [
     { name: "Shampoo", image: "/mshampoo.jpg" },
     { name: "Facewash", image: "/menfw.jpg" },
-    { name: "Rings", image: "/menring.jpg" },
+    { name: "Ring", image: "/menring.jpg" },
     { name: "Watches", image: "/menwatch.jpg" },
     { name: "Bracelets", image: "/menbraclet.jpg" },
   ];
