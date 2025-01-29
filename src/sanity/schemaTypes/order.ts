@@ -19,6 +19,16 @@ export default {
       type: 'text',
     },
     {
+      name: 'city',
+      title: 'City',
+      type: 'string',
+    },
+    {
+      name: 'phoneNumber',
+      title: 'Phone Number',
+      type: 'string',
+    },
+    {
       name: 'cartItems',
       title: 'Cart Items',
       type: 'array',
@@ -28,23 +38,33 @@ export default {
           fields: [
             {
               name: 'productId',
+              title: 'Product ID',
               type: 'string',
             },
             {
               name: 'name',
+              title: 'Product Name',
               type: 'string',
             },
             {
               name: 'price',
+              title: 'Price',
               type: 'number',
             },
             {
               name: 'quantity',
+              title: 'Quantity',
               type: 'number',
             },
             {
               name: 'image',
+              title: 'Product Image',
               type: 'string',
+            },
+            {
+              name: 'uniqueId',
+              title: 'Unique ID',
+              type: 'string', // We will use this field for the unique key
             },
           ],
         },
