@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const images = [
-  "/1.jpg",
+"/1.jpg",
   "/2.jpg",
   "/3.jpg",
   "/4.jpg",
@@ -36,7 +36,7 @@ const ImageSlider = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-[#6EC207] via-[#A8E063] to-[#D0F0C0] px-4 pt-4 md:pt-0">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-[#6EC207] via-[#A8E063] to-[#D0F0C0] px-4 -mt-16">
       <div className="relative w-full max-w-3xl h-72 md:h-96 overflow-hidden rounded-lg shadow-lg bg-white/30 backdrop-blur-md p-2">
         <AnimatePresence mode="wait">
           <motion.img
