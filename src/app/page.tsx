@@ -1,4 +1,5 @@
 import ImageSlider from "@/components/Home";
+import WhatsAppButton from "@/components/Whatup";
 import Link from "next/link";
 
 const sections = [
@@ -30,7 +31,7 @@ const HomePage = () => {
                   className="w-full h-72 object-cover rounded-t-lg transition-all duration-300"
                 />
                 {/* Heading Below Image */}
-                <div className="bg-black/70 text-white text-center p-4 rounded-b-lg">
+                <div className="bg-black/70 mb-7 text-white text-center p-4 rounded-b-lg">
                   <h3 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-wider uppercase text-shadow-md">
                     {section.name}
                   </h3>
@@ -40,6 +41,7 @@ const HomePage = () => {
           </div>
         ))}
       </div>
+      <WhatsAppButton/>
     </div>
   );
 };

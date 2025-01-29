@@ -7,6 +7,7 @@ import Sheader from "@/components/Sheader";
 import Uheader from "@/components/Uheader";
 import Footer from "@/components/Footer";
 import { ProductProvider } from "@/context/ProductContext";
+import WhatsAppButton from "@/components/Whatup";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,6 +33,7 @@ export default function RootLayout({
       <Header/>
       <Uheader/>
        {children}
+       <WhatsAppButton/>
        <Footer/>
        </ProductProvider>
        </CartProvider>
