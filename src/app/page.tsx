@@ -19,18 +19,19 @@ const HomePage = () => {
         {sections.map((section, index) => (
           <div
             key={index}
-            className="relative w-full h-72 bg-gray-300 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+            className="relative w-full h-auto bg-gray-300 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
           >
             <Link href={section.link}>
-              <div className="w-full h-full relative cursor-pointer">
+              <div className="relative w-full">
+                {/* Image */}
                 <img
                   src={section.image}
                   alt={section.name}
-                  className="w-full h-full object-cover rounded-lg transition-all duration-300"
+                  className="w-full h-72 object-cover rounded-t-lg transition-all duration-300"
                 />
-                {/* Stylish Overlay for heading */}
-                <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/70 to-transparent text-black text-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                  <h3 className="text-3xl font-extrabold tracking-wide uppercase text-shadow-lg">
+                {/* Heading Below Image */}
+                <div className="bg-black/70 text-white text-center p-4 rounded-b-lg">
+                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-wider uppercase text-shadow-md">
                     {section.name}
                   </h3>
                 </div>

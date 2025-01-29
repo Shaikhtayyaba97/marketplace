@@ -1,50 +1,59 @@
-import { defineField, defineType } from 'sanity';
-
-export default defineType({
-  name: 'orderdetail',
-  title: 'Order Detail',
+export default {
+  name: 'order',
+  title: 'Order',
   type: 'document',
   fields: [
-    defineField({
-      name: 'name',
+    {
+      name: 'customerName',
       title: 'Customer Name',
       type: 'string',
-    }),
-    defineField({
+    },
+    {
       name: 'email',
-      title: 'Email Address',
+      title: 'Email',
       type: 'string',
-    }),
-    defineField({
-      name: 'city',
-      title: 'City',
-      type: 'string',
-    }),
-    defineField({
+    },
+    {
       name: 'address',
       title: 'Address',
-      type: 'string',
-    }),
-    defineField({
-      name: 'phoneNumber',
-      title: 'Phone Number',
-      type: 'string',
-    }),
-    defineField({
-      name: 'totalPrice',
-      title: 'Total Price',
-      type: 'number',
-    }),
-    defineField({
+      type: 'text',
+    },
+    {
       name: 'cartItems',
       title: 'Cart Items',
       type: 'array',
       of: [
         {
-          type: 'reference',
-          to: [{ type: 'product' }], // This will reference a product document
+          type: 'object',
+          fields: [
+            {
+              name: 'productId',
+              type: 'string',
+            },
+            {
+              name: 'name',
+              type: 'string',
+            },
+            {
+              name: 'price',
+              type: 'number',
+            },
+            {
+              name: 'quantity',
+              type: 'number',
+            },
+            {
+              name: 'image',
+              type: 'string',
+            },
+          ],
         },
       ],
-    }),
+    },
+    {
+      name: 'totalPrice',
+      title: 'Total Price',
+      type: 'number',
+    },
   ],
-});
+};
