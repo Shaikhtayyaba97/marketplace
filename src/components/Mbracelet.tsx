@@ -47,7 +47,7 @@ const Mbracelet = ({ category }: { category: string }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Shampoo</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">Bracelet</h1>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
           <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg text-center">
