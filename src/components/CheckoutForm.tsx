@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useCart } from '@/context/CartContext'; // Make sure this import path is correct
 
 const CheckoutForm: React.FC = () => {
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart(); // clearCart added
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -41,7 +41,12 @@ const CheckoutForm: React.FC = () => {
       };
 
       const response = await axios.post('/api/order', orderData);
+
+      // Order successful: Reset form & clear cart
       setSuccessMessage('Order placed successfully! Thank you for your purchase.');
+      setFormData({ name: '', email: '', city: '', address: '', phoneNumber: '' }); // Reset form
+      clearCart(); // Empty the cart
+
     } catch (error) {
       console.error('Error submitting order:', error);
       setError('Failed to submit order. Please try again.');
