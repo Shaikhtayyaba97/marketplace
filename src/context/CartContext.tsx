@@ -14,12 +14,16 @@ type CartState = CartItem[];
 type CartAction =
   | { type: 'ADD_TO_CART'; payload: CartItem }
   | { type: 'REMOVE_FROM_CART'; payload: string }
+  | { type: 'INCREMENT_QUANTITY'; payload: string }
+  | { type: 'DECREMENT_QUANTITY'; payload: string }
   | { type: 'CLEAR_CART' };
 
 const CartContext = createContext<{
   cartItems: CartState;
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
+  incrementQuantity: (id: string) => void;
+  decrementQuantity: (id: string) => void;
   clearCart: () => void;
 } | null>(null);
 
@@ -37,6 +41,18 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
     case 'REMOVE_FROM_CART':
       return state.filter((item) => item.id !== action.payload);
+
+    case 'INCREMENT_QUANTITY':
+      return state.map((item) =>
+        item.id === action.payload ? { ...item, quantity: item.quantity + 1 } : item
+      );
+
+    case 'DECREMENT_QUANTITY':
+      return state.map((item) =>
+        item.id === action.payload && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
 
     case 'CLEAR_CART':
       localStorage.removeItem('cart'); // 🔹 Order hone ke baad cart remove
@@ -68,12 +84,20 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch({ type: 'REMOVE_FROM_CART', payload: id });
   };
 
+  const incrementQuantity = (id: string) => {
+    dispatch({ type: 'INCREMENT_QUANTITY', payload: id });
+  };
+
+  const decrementQuantity = (id: string) => {
+    dispatch({ type: 'DECREMENT_QUANTITY', payload: id });
+  };
+
   const clearCart = () => {
     dispatch({ type: 'CLEAR_CART' });
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, incrementQuantity, decrementQuantity, clearCart }}>
       {children}
     </CartContext.Provider>
   );
