@@ -66,6 +66,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
         {/* Product Description */}
         <p className="mt-4 text-gray-700">{product.description}</p>
+         <p className="mt-4 text-gray-700">{product.stock}</p>
        
       </div>
     </div>

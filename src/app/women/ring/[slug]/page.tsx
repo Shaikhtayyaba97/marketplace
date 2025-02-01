@@ -63,9 +63,13 @@ export default async function ProductPage({ params }: { params: { slug: string }
         <p className="text-lg">
           Price: <strong>{product.price}</strong>
         </p>
+        <p className="text-lg">
+          Stock: <strong>{product.stock}</strong>
+        </p>
 
         {/* Product Description */}
         <p className="mt-4 text-gray-700">{product.description}</p>
+        
        
       </div>
     </div>

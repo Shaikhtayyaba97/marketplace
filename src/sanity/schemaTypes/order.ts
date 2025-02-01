@@ -56,6 +56,7 @@ export default {
               title: 'Quantity',
               type: 'number',
             },
+            
             {
               name: 'image',
               title: 'Product Image',
@@ -75,5 +76,12 @@ export default {
       title: 'Total Price',
       type: 'number',
     },
+    {
+      name: 'orderDate',
+      tittle: 'Order Date',
+      type: 'datetime'
+    },
+    { name: "status", type: "string", title: "Order Status", initialValue: "Pending" },
+    
   ],
 };
