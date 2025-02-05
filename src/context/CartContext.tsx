@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, useEffect, useReducer, useState } from 'react';
+import { createContext, useContext, useReducer, useState, useEffect } from 'react';
 
 interface CartItem {
   id: string;
@@ -25,8 +25,8 @@ const CartContext = createContext<{
   incrementQuantity: (id: string) => void;
   decrementQuantity: (id: string) => void;
   clearCart: () => void;
-  notification: string | null; // ✅ Notification State
-  setNotification: (message: string | null) => void; // ✅ Function to set Notification
+  notification: string | null;
+  showNotification: (message: string) => void;
 } | null>(null);
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
@@ -57,7 +57,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       );
 
     case 'CLEAR_CART':
-      localStorage.removeItem('cart'); // 🔹 Order hone ke baad cart remove
+      localStorage.removeItem('cart');
       return [];
 
     default:
@@ -74,7 +74,14 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     return [];
   });
 
-  const [notification, setNotification] = useState<string | null>(null); // ✅ Notification State
+  const [notification, setNotification] = useState<string | null>(null);
+
+  const showNotification = (message: string) => {
+    setNotification(message);
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+  };
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -82,14 +89,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addToCart = (item: CartItem) => {
     dispatch({ type: 'ADD_TO_CART', payload: item });
-
-    // ✅ Show Notification
-    setNotification(`${item.name} added to cart`);
-
-    // ✅ Auto-hide after 3 seconds
-    setTimeout(() => {
-      setNotification(null);
-    }, 3000);
+    showNotification(`${item.name} added to cart!`);
   };
 
   const removeFromCart = (id: string) => {
@@ -109,18 +109,16 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        removeFromCart,
-        incrementQuantity,
-        decrementQuantity,
-        clearCart,
-        notification,
-        setNotification,
-      }}
-    >
+    <CartContext.Provider value={{
+      cartItems, 
+      addToCart, 
+      removeFromCart, 
+      incrementQuantity, 
+      decrementQuantity, 
+      clearCart, 
+      notification, 
+      showNotification
+    }}>
       {children}
     </CartContext.Provider>
   );

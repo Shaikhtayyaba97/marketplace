@@ -1,14 +1,13 @@
 'use client';
-
 import { useCart } from '@/context/CartContext';
 
 const Notification = () => {
   const { notification } = useCart();
 
-  if (!notification) return null; // ✅ Agar koi notification nahi hai toh hide kar do
+  if (!notification) return null;
 
   return (
-    <div className="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg transition-all">
+    <div className="fixed top-10 right-5 bg-green-500 text-white py-2 px-4 rounded shadow-lg transition-opacity duration-300">
       {notification}
     </div>
   );
