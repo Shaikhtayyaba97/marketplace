@@ -8,6 +8,7 @@ import Uheader from "@/components/Uheader";
 import Footer from "@/components/Footer";
 import { ProductProvider } from "@/context/ProductContext";
 import WhatsAppButton from "@/components/Whatup";
+import Notification from "@/components/Notification";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,6 +33,7 @@ export default function RootLayout({
         <Sheader/>
       <Header/>
       <Uheader/>
+      <Notification/>
        {children}
        <WhatsAppButton/>
        <Footer/>

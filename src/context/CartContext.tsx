@@ -1,5 +1,5 @@
-'use client'
-import { createContext, useContext, useEffect, useReducer } from 'react';
+'use client';
+import { createContext, useContext, useEffect, useReducer, useState } from 'react';
 
 interface CartItem {
   id: string;
@@ -25,6 +25,8 @@ const CartContext = createContext<{
   incrementQuantity: (id: string) => void;
   decrementQuantity: (id: string) => void;
   clearCart: () => void;
+  notification: string | null; // ✅ Notification State
+  setNotification: (message: string | null) => void; // ✅ Function to set Notification
 } | null>(null);
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
@@ -72,12 +74,22 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     return [];
   });
 
+  const [notification, setNotification] = useState<string | null>(null); // ✅ Notification State
+
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (item: CartItem) => {
     dispatch({ type: 'ADD_TO_CART', payload: item });
+
+    // ✅ Show Notification
+    setNotification(`${item.name} added to cart`);
+
+    // ✅ Auto-hide after 3 seconds
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
   };
 
   const removeFromCart = (id: string) => {
@@ -97,7 +109,18 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, incrementQuantity, decrementQuantity, clearCart }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        incrementQuantity,
+        decrementQuantity,
+        clearCart,
+        notification,
+        setNotification,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
