@@ -1,71 +1,69 @@
-// schemas/order.ts
-import { defineField, defineType } from "sanity";
-
-export default defineType({
-  name: "order",
-  title: "Order",
-  type: "document",
+export default {
+  name: 'order',
+  type: 'document',
+  title: 'Order',
   fields: [
-    defineField({
-      name: "customerName",
-      title: "Customer Name",
-      type: "string",
-    }),
-    defineField({
-      name: "email",
-      title: "Email",
-      type: "string",
-    }),
-    defineField({
-      name: "city",
-      title: "City",
-      type: "string",
-    }),
-    defineField({
-      name: "address",
-      title: "Address",
-      type: "string",
-    }),
-    defineField({
-      name: "phoneNumber",
-      title: "Phone Number",
-      type: "string",
-    }),
-    defineField({
-      name: "status",
-      title: "Status",
-      type: "string",
-      options: {
-        list: ["Pending", "Delivered", "Out for Delivery"],
-      },
-      initialValue: "Pending",
-    }),
-    defineField({
-      name: "totalPrice",
-      title: "Total Price",
-      type: "number",
-    }),
-    defineField({
-      name: "cartItems",
-      title: "Cart Items",
-      type: "array",
+    {
+      name: 'customerName',
+      type: 'string',
+      title: 'Customer Name',
+    },
+    {
+      name: 'email',
+      type: 'string',
+      title: 'Email',
+    },
+    {
+      name: 'city',
+      type: 'string',
+      title: 'City',
+    },
+    {
+      name: 'address',
+      type: 'string',
+      title: 'Address',
+    },
+    {
+      name: 'phoneNumber',
+      type: 'string',
+      title: 'Phone Number',
+    },
+    {
+      name: 'cartItems',
+      type: 'array',
+      title: 'Cart Items',
       of: [
         {
-          type: "object",
+          type: 'object',
           fields: [
-            { name: "name", title: "Name", type: "string" },
-            { name: "quantity", title: "Quantity", type: "number" },
-            { name: "price", title: "Price", type: "number" },
-            { name: "totalPrice", title: "Total Price", type: "number" },
             {
-              name: "image",
-              title: "Image",
-              type: "image",
-              options: { hotspot: true },
+              name: 'name',
+              type: 'string',
+              title: 'Product Name',
+            },
+            {
+              name: 'price',
+              type: 'number',
+              title: 'Product Price',
+            },
+            {
+              name: 'quantity',
+              type: 'number',
+              title: 'Quantity',
+            },
+            {
+              name: 'uniqueKey', // Changed from _key to uniqueKey
+              type: 'string',
+              title: 'Unique Key',
             },
           ],
         },
       ],
-    }),
+    },
+    {
+      name: 'totalPrice',
+      type: 'number',
+      title: 'Total Price',
+    },
   ],
-});
+};

@@ -12,8 +12,14 @@ const Header = () => {
   const { searchQuery, setSearchQuery } = useSearch();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false); // Added state for hydration check
 
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  useEffect(() => {
+    // Set hydrated state to true after component mounts (client-side)
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -71,7 +77,8 @@ const Header = () => {
         <Link href="/cart" className="flex items-center space-x-2">
           <ShoppingCartIcon className="h-6 w-6 text-black hover:text-gray-600" />
         </Link>
-        {cartCount > 0 && (
+        {/* Only render the cart count after hydration */}
+        {isHydrated && cartCount > 0 && (
           <span className="absolute -top-2 -right-2 bg-[#6EC207] text-black text-sm rounded-full h-5 w-5 flex items-center justify-center">
             {cartCount}
           </span>

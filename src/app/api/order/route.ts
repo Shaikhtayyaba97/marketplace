@@ -1,10 +1,17 @@
 import { NextResponse } from 'next/server';
-import {client} from '@/sanity/lib/client' // Adjust the import to point to the right file
+import { client } from '@/sanity/lib/client'; // Adjust the import to point to the right file
+import { v4 as uuidv4 } from 'uuid'; // Import UUID for unique keys
 
 export async function POST(request: Request) {
   const orderData = await request.json();
 
   try {
+    // Add unique keys to each cart item
+    const cartItemsWithKeys = orderData.cartItems.map((item: any) => ({
+      ...item,
+      _key: uuidv4(), // Generate a unique key for each item
+    }));
+
     // Create the order in Sanity
     const order = await client.create({
       _type: 'order',
@@ -13,7 +20,7 @@ export async function POST(request: Request) {
       city: orderData.city,
       address: orderData.address,
       phoneNumber: orderData.phoneNumber,
-      cartItems: orderData.cartItems,
+      cartItems: cartItemsWithKeys, // Use updated cart items with keys
       totalPrice: orderData.totalPrice,
     });
 
