@@ -3,6 +3,7 @@
 import { useCart } from "@/context/CartContext";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
+import { urlFor } from "@/sanity/lib/client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSearch } from "@/context/ProductContext"; // Import useSearch
@@ -12,7 +13,7 @@ interface Product {
   name: string;
   price: number;
   slug: { current: string };
-  imageUrl: string;
+  image:any;
 }
 
 const Cmug = ({ category }: { category: string }) => {
@@ -24,7 +25,7 @@ const Cmug = ({ category }: { category: string }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       const query = `*[_type == "product" && category == $category] {
-        _id, name, price, slug, "imageUrl": image.asset->url
+        _id, name, price, slug, image
       }`;
 
       const fetchedProducts = await client.fetch(query, { category });
@@ -54,7 +55,7 @@ const Cmug = ({ category }: { category: string }) => {
             <div className="bg-gray-100 p-4 rounded-md">
               <Link href={`/customize/mug/${product.slug.current}`}>
                 <Image
-                  src={product.imageUrl}
+                  src={urlFor(product.image).url()}
                   alt={product.name}
                   width={120}
                   height={120}
@@ -75,7 +76,7 @@ const Cmug = ({ category }: { category: string }) => {
                   name: product.name,
                   price: product.price,
                   quantity: 1,
-                  image: product.imageUrl,
+                  image: product.image,
                 })
               }
               className="bg-black text-white py-2 px-4 rounded-lg mt-4"

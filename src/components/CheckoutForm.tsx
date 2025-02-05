@@ -26,27 +26,30 @@ const CheckoutForm: React.FC = () => {
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);
-
+  
     if (!formData.name || !formData.email || !formData.city || !formData.address || !formData.phoneNumber) {
       setError('Please fill in all fields.');
       setIsSubmitting(false);
       return;
     }
-
+  
+    const orderData = {
+      ...formData,
+      totalPrice: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
+      cartItems,
+    };
+  
+    console.log("Order Data:", orderData); // Debugging
+  
     try {
-      const orderData = {
-        ...formData,
-        totalPrice: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
-        cartItems,
-      };
-
       const response = await axios.post('/api/order', orderData);
-
-      // Order successful: Reset form & clear cart
+  
+      console.log("Order Response:", response.data); // Debugging
+  
       setSuccessMessage('Order placed successfully! Thank you for your purchase.');
-      setFormData({ name: '', email: '', city: '', address: '', phoneNumber: '' }); // Reset form
-      clearCart(); // Empty the cart
-
+      setFormData({ name: '', email: '', city: '', address: '', phoneNumber: '' });
+      clearCart();
+  
     } catch (error) {
       console.error('Error submitting order:', error);
       setError('Failed to submit order. Please try again.');
