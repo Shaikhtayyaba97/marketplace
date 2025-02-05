@@ -1,15 +1,32 @@
 'use client';
 import { useCart } from '@/context/CartContext';
+import { useEffect, useState } from 'react';
 
 const Notification = () => {
   const { notification } = useCart();
+  const [isVisible, setIsVisible] = useState(false);
 
-  if (!notification) return null;
+  useEffect(() => {
+    if (notification) {
+      setIsVisible(true);
+
+      // Hide notification after 3 seconds
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
+    }
+  }, [notification]);
 
   return (
-    <div className="fixed top-10 right-5 bg-green-500 text-white py-2 px-4 rounded shadow-lg transition-opacity duration-300">
-      {notification}
-    </div>
+    notification && (
+      <div
+        className={`fixed bottom-5 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg transition-all duration-500 ease-in-out ${
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        }`}
+      >
+        {notification}
+      </div>
+    )
   );
 };
 
