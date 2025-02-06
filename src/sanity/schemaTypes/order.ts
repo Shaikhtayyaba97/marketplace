@@ -51,11 +51,7 @@ export default {
               type: 'number',
               title: 'Quantity',
             },
-            {
-              name: 'uniqueKey', // Changed from _key to uniqueKey
-              type: 'string',
-              title: 'Unique Key',
-            },
+            // Removed uniqueKey, rely on Sanity's _key
           ],
         },
       ],
