@@ -37,6 +37,12 @@ export default {
           type: 'object',
           fields: [
             {
+              name: 'product',
+              type: 'reference',
+              to: [{ type: 'product' }],
+              title: 'Product',
+            },
+            {
               name: 'name',
               type: 'string',
               title: 'Product Name',
@@ -51,7 +57,14 @@ export default {
               type: 'number',
               title: 'Quantity',
             },
-            // Removed uniqueKey, rely on Sanity's _key
+            {
+              name: 'image',
+              title: 'Product Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
           ],
         },
       ],
