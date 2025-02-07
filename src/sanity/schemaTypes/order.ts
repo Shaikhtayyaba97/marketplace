@@ -59,7 +59,7 @@ export default {
             },
             {
               name: 'image',
-              title: 'Product Image',
+              title: ' Image',
               type: 'image',
               options: {
                 hotspot: true,
