@@ -31,7 +31,7 @@ export default function RootLayout({
       <CartProvider>
         <ProductProvider>
         <Sheader/>
-      <Header/>
+      
       <Uheader/>
       <Notification/>
        {children}

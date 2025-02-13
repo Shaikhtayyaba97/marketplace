@@ -1,31 +1,120 @@
+"use client";
+import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { ShoppingCartIcon, MagnifyingGlassIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useCart } from "@/context/CartContext";
+import { useSearch } from "@/context/ProductContext";
+import { fetchProducts } from "@/app/lib/fetchProducts";
 
-export default function Uheader() {
+const Header = () => {
+  const { cartItems } = useCart();
+  const { searchQuery, setSearchQuery } = useSearch();
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      if (searchQuery.trim() !== "") {
+        setLoading(true);
+        try {
+          const results = await fetchProducts(searchQuery);
+          setProducts(results);
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setProducts([]);
+      }
+    };
+
+    fetchSearchResults();
+  }, [searchQuery]);
+
   return (
-    <nav className="bg-white flex justify-center items-center w-full py-4">
-      <div className=" flex  flex-wrap justify-center gap-4 sm:gap-6 w-full max-w-4xl">
-        <Link href="/" className="hover:text-red-500 text-black text-lg">
-          Home
-        </Link>
-        <Link href="/men" className="hover:text-red-500 text-black text-lg">
-          Men
-        </Link>
-        <Link href="women/ring" className="hover:text-red-500 text-black text-lg">
-          Ring
-        </Link>
-        <Link href="women/bracelet" className="hover:text-red-500 text-black text-lg">
-          Bracelet
-        </Link>
-        <Link href="women/necklace" className="hover:text-red-500 text-black text-lg">
-          Necklace
-        </Link>
-        <Link href="women/bangle" className="hover:text-red-500 text-black text-lg">
-          Bangles
-        </Link>
-        <Link href="women/set" className="hover:text-red-500 text-black text-lg">
-          Women set
+    <header className="bg-white text-black px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
+      {/* Mobile Menu Button */}
+      <button
+        className="sm:hidden text-black"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        {isMobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
+      </button>
+
+      {/* Logo */}
+      <div className="flex-grow flex justify-center sm:justify-start">
+        <Link href="/" className="text-3xl font-bold hover:opacity-80">
+          A to Z
         </Link>
       </div>
-    </nav>
+
+      {/* Desktop Navigation */}
+      <nav className="hidden sm:flex flex-grow  space-x-6">
+        <Link href="/" className="hover:text-red-500 text-lg">Home</Link>
+        <Link href="/men" className="hover:text-red-500 text-lg">Men</Link>
+        <Link href="/women/ring" className="hover:text-red-500 text-lg">Ring</Link>
+        <Link href="/women/bracelet" className="hover:text-red-500 text-lg">Bracelet</Link>
+        <Link href="/women/necklace" className="hover:text-red-500 text-lg">Necklace</Link>
+        <Link href="/women/bangle" className="hover:text-red-500 text-lg">Bangles</Link>
+        <Link href="/women/set" className="hover:text-red-500 text-lg">Women Set</Link>
+      </nav>
+
+      {/* Search and Cart */}
+      <div className="flex items-center space-x-4">
+        {/* Search Icon */}
+        <button onClick={() => setShowSearch(!showSearch)}>
+          <MagnifyingGlassIcon className="w-6 h-6 text-black" />
+        </button>
+
+        {/* Cart Icon */}
+        <Link href="/cart" className="relative">
+          <ShoppingCartIcon className="w-6 h-6 text-black hover:text-gray-600" />
+          {isHydrated && cartCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+              {cartCount}
+            </span>
+          )}
+        </Link>
+      </div>
+
+      {/* Search Bar */}
+      {showSearch && (
+        <div className="absolute top-16 right-4 bg-white shadow-md p-2 rounded-md">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-40 sm:w-64 md:w-80 p-2 border border-gray-300 rounded-md focus:outline-none"
+          />
+        </div>
+      )}
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-start p-4 space-y-2 sm:hidden">
+          <Link href="/" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+          <Link href="/men" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Men</Link>
+          <Link href="/women/ring" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Ring</Link>
+          <Link href="/women/bracelet" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Bracelet</Link>
+          <Link href="/women/necklace" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Necklace</Link>
+          <Link href="/women/bangle" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Bangles</Link>
+          <Link href="/women/set" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Women Set</Link>
+        </div>
+      )}
+    </header>
   );
-}
+};
+
+export default Header;
