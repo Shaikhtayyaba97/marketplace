@@ -6,7 +6,7 @@ export default function Sheader() {
 
 
       
-      <div style={{backgroundColor: "#7e5c14"}} className=" text-white h-12 flex items-center justify-center">
+      <div style={{backgroundColor: "#7e5c14"}} className=" text-white sm:h-8 md: h-10 lg: h-12 flex items-center justify-center">
         <p className="text-lg text-2xl whitespace-nowrap animate-marquee">
           Free Shipping On Order Above 3000!
         </p>
