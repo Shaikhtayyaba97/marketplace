@@ -43,52 +43,57 @@ const Header = () => {
   }, [searchQuery]);
 
   return (
-    <header className="bg-white   text-black px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
-      {/* Mobile Menu Button */}
-      <button
-        className="sm:hidden text-black"
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      >
-        {isMobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
-      </button>
-
-{/* Logo */}
-<div className="flex-grow flex justify-center sm:justify-start">
-  <Link href="/" className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#000000] to-[#7e5c14] hover:opacity-90 transform transition-all duration-300 ease-in-out">
-    A to Z
-  </Link>
-</div>
-
-      {/* Desktop Navigation */}
-      <nav className="hidden sm:flex flex-grow  space-x-6">
-        <Link href="/" className="hover:text-red-500 text-lg">Home</Link>
-        <Link href="/men" className="hover:text-red-500 text-lg">Men</Link>
-        <Link href="/women/ring" className="hover:text-red-500 text-lg">Ring</Link>
-        <Link href="/women/earring" className="hover:text-red-500 text-lg">Earing</Link>
-        <Link href="/women/watches" className="hover:text-red-500 text-lg">Watches</Link>
-        <Link href="/women/bracelet" className="hover:text-red-500 text-lg">Bracelet</Link>
-        <Link href="/women/necklace" className="hover:text-red-500 text-lg">Necklace</Link>
-        <Link href="/women/bangle" className="hover:text-red-500 text-lg">Bangles</Link>
-        <Link href="/women/set" className="hover:text-red-500 text-lg">Jewellery Set</Link>
-      </nav>
-
-      {/* Search and Cart */}
-      <div className="flex items-center space-x-4">
-        {/* Search Icon */}
-        <button onClick={() => setShowSearch(!showSearch)}>
-          <MagnifyingGlassIcon className="w-6 h-6 text-black" />
+    <>
+      <header className="bg-white text-black px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
+        {/* Mobile Menu Button */}
+        <button
+          className="sm:hidden text-black"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
         </button>
 
-        {/* Cart Icon */}
-        <Link href="/cart" className="relative">
-          <ShoppingCartIcon className="w-6 h-6 text-black hover:text-gray-600" />
-          {isHydrated && cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-              {cartCount}
-            </span>
-          )}
-        </Link>
-      </div>
+        {/* Logo */}
+        <div className="flex-grow flex justify-center sm:justify-start">
+          <Link href="/" className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#000000] to-[#7e5c14] hover:opacity-90 transform transition-all duration-300 ease-in-out sm:text-3xl">
+            A to Z
+          </Link>
+        </div>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden sm:flex flex-grow space-x-6">
+          <Link href="/" className="hover:text-red-500 text-lg">Home</Link>
+          <Link href="/men" className="hover:text-red-500 text-lg">Men</Link>
+          <Link href="/women/ring" className="hover:text-red-500 text-lg">Ring</Link>
+          <Link href="/women/earring" className="hover:text-red-500 text-lg">Earing</Link>
+          <Link href="/women/watches" className="hover:text-red-500 text-lg">Watches</Link>
+          <Link href="/women/bracelet" className="hover:text-red-500 text-lg">Bracelet</Link>
+          <Link href="/women/necklace" className="hover:text-red-500 text-lg">Necklace</Link>
+          <Link href="/women/bangle" className="hover:text-red-500 text-lg">Bangles</Link>
+          <Link href="/women/set" className="hover:text-red-500 text-lg">Jewellery Set</Link>
+        </nav>
+
+        {/* Search and Cart */}
+        <div className="flex items-center space-x-4">
+          {/* Search Icon */}
+          <button onClick={() => setShowSearch(!showSearch)}>
+            <MagnifyingGlassIcon className="w-6 h-6 text-black" />
+          </button>
+
+          {/* Cart Icon */}
+          <Link href="/cart" className="relative">
+            <ShoppingCartIcon className="w-6 h-6 text-black hover:text-gray-600" />
+            {isHydrated && cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+        </div>
+      </header>
+
+      {/* Gray Line Below Header */}
+      <div className="h-px bg-gray-300"></div>
 
       {/* Search Bar */}
       {showSearch && (
@@ -115,7 +120,7 @@ const Header = () => {
           <Link href="/women/set" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Women Set</Link>
         </div>
       )}
-    </header>
+    </>
   );
 };
 
