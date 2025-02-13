@@ -7,17 +7,23 @@ export default function Uheader() {
         <Link href="/" className="hover:text-red-500 text-black text-lg">
           Home
         </Link>
-        <Link href="/women" className="hover:text-red-500 text-black text-lg">
-          Women
-        </Link>
         <Link href="/men" className="hover:text-red-500 text-black text-lg">
           Men
         </Link>
-        <Link href="/kids" className="hover:text-red-500 text-black text-lg">
-          Kids
+        <Link href="women/ring" className="hover:text-red-500 text-black text-lg">
+          Ring
         </Link>
-        <Link href="/customize" className="hover:text-red-500 text-black text-lg">
-          Customize
+        <Link href="women/bracelet" className="hover:text-red-500 text-black text-lg">
+          Bracelet
+        </Link>
+        <Link href="women/necklace" className="hover:text-red-500 text-black text-lg">
+          Necklace
+        </Link>
+        <Link href="women/bangle" className="hover:text-red-500 text-black text-lg">
+          Bangles
+        </Link>
+        <Link href="women/set" className="hover:text-red-500 text-black text-lg">
+          Women set
         </Link>
       </div>
     </nav>

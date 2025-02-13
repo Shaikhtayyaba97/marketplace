@@ -69,7 +69,7 @@ const Maring = ({ category }: { category: string }) => {
             <p className="text-gray-700 font-medium">
               Price: {product.price.toFixed(2)} {/* Format the price */}
             </p>
-            <button
+            <button style={{backgroundColor: "#7e5c14"}}
               onClick={() =>
                 addToCart({
                   id: product._id,
@@ -79,7 +79,7 @@ const Maring = ({ category }: { category: string }) => {
                   image: product.image,
                 })
               }
-              className="bg-black text-white py-2 px-4 rounded-lg mt-4"
+              className=" text-white py-2 px-4 rounded-lg mt-4"
             >
               Add to Cart
             </button>
