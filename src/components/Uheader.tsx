@@ -43,7 +43,7 @@ const Header = () => {
   }, [searchQuery]);
 
   return (
-    <header className="bg-white text-black px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
+    <header className="bg-white   text-black px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
       {/* Mobile Menu Button */}
       <button
         className="sm:hidden text-black"
@@ -52,12 +52,12 @@ const Header = () => {
         {isMobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
       </button>
 
-      {/* Logo */}
-      <div className="flex-grow flex justify-center sm:justify-start">
-        <Link href="/" className="text-3xl font-bold hover:opacity-80">
-          A to Z
-        </Link>
-      </div>
+{/* Logo */}
+<div className="flex-grow flex justify-center sm:justify-start">
+  <Link href="/" className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#000000] to-[#7e5c14] hover:opacity-90 transform transition-all duration-300 ease-in-out">
+    A to Z
+  </Link>
+</div>
 
       {/* Desktop Navigation */}
       <nav className="hidden sm:flex flex-grow  space-x-6">
