@@ -68,7 +68,7 @@ const Header = () => {
           placeholder="Search Products..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-40 sm:w-64 md:w-80 lg:w-96 p-2 border-2 border-[#6EC207] rounded-md focus:outline-none focus:ring-2 focus:ring-[#6EC207] text-sm"
+          className="w-40 sm:w-64 md:w-80 lg:w-96 p-2 border-2 border-[#191d15] rounded-md focus:outline-none focus:ring-2  text-sm"
         />
       </div>
 
@@ -79,7 +79,7 @@ const Header = () => {
         </Link>
         {/* Only render the cart count after hydration */}
         {isHydrated && cartCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-[#6EC207] text-black text-sm rounded-full h-5 w-5 flex items-center justify-center">
+          <span className="absolute -top-2 -right-2 bg-[#0f100e] text-black text-sm rounded-full h-5 w-5 flex items-center justify-center">
             {cartCount}
           </span>
         )}
