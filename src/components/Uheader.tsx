@@ -64,10 +64,12 @@ const Header = () => {
         <Link href="/" className="hover:text-red-500 text-lg">Home</Link>
         <Link href="/men" className="hover:text-red-500 text-lg">Men</Link>
         <Link href="/women/ring" className="hover:text-red-500 text-lg">Ring</Link>
+        <Link href="/women/earring" className="hover:text-red-500 text-lg">Earing</Link>
+        <Link href="/women/watches" className="hover:text-red-500 text-lg">Watches</Link>
         <Link href="/women/bracelet" className="hover:text-red-500 text-lg">Bracelet</Link>
         <Link href="/women/necklace" className="hover:text-red-500 text-lg">Necklace</Link>
         <Link href="/women/bangle" className="hover:text-red-500 text-lg">Bangles</Link>
-        <Link href="/women/set" className="hover:text-red-500 text-lg">Women Set</Link>
+        <Link href="/women/set" className="hover:text-red-500 text-lg">Jewellery Set</Link>
       </nav>
 
       {/* Search and Cart */}

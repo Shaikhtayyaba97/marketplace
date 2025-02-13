@@ -13,7 +13,7 @@ interface Product {
   name: string;
   price: number;
   slug: { current: string };
-  image:any;
+  image: any;
 }
 
 const Wring = ({ category }: { category: string }) => {
@@ -21,6 +21,9 @@ const Wring = ({ category }: { category: string }) => {
   const { searchQuery } = useSearch(); // Access the searchQuery
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Use lowercase 'boolean'
+  const [priceFilter, setPriceFilter] = useState<{ min: number; max: number }>({ min: 0, max: 10000 });
+  const [sortOrder, setSortOrder] = useState<'lowToHigh' | 'highToLow' | 'bestSelling' | 'alphabeticallyAZ' | 'alphabeticallyZA' | 'newToOld' | 'oldToNew'>('lowToHigh');
+  const [isSortOpen, setIsSortOpen] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,20 +40,140 @@ const Wring = ({ category }: { category: string }) => {
   }, [category]);
 
   // Filter products based on search query globally
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredProducts = products
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter((product) => product.price >= priceFilter.min && product.price <= priceFilter.max);
+
+  // Sort the filtered products based on the selected sort order
+  const sortedProducts = filteredProducts.sort((a, b) => {
+    if (sortOrder === 'lowToHigh') return a.price - b.price;
+    if (sortOrder === 'highToLow') return b.price - a.price;
+    if (sortOrder === 'bestSelling') return 0; // Replace with actual best-seller logic
+    if (sortOrder === 'alphabeticallyAZ') return a.name.localeCompare(b.name);
+    if (sortOrder === 'alphabeticallyZA') return b.name.localeCompare(a.name);
+    if (sortOrder === 'newToOld') return new Date(b._id).getTime() - new Date(a._id).getTime();
+    if (sortOrder === 'oldToNew') return new Date(a._id).getTime() - new Date(b._id).getTime();
+    return 0;
+  });
 
   if (loading) return <p>Loading...</p>;
 
-  if (!filteredProducts.length)
-    return <p>No products found for &quot;{searchQuery}&quot;.</p>;
+  if (!sortedProducts.length) return <p>No products found for &quot;{searchQuery}&quot;.</p>;
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Stainless Ring</h1>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
+      {/* Description */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-center mb-4"> Rings</h1>
+        <p className="text-center text-gray-600">
+          Waterproof, Stainless Steel Necklace with 18k Gold Plated, Tarnish Free and Color Guaranteed for Long-Lasting Wear.
+        </p>
+      </div>
+
+      {/* Filters and Sorting */}
+      <div className="flex justify-between items-center mb-6">
+        {/* Sort By Button */}
+        <div className="relative flex items-center">
+          <button
+            onClick={() => setIsSortOpen(!isSortOpen)}
+            className="bg-gray-800 text-white py-2 px-4 rounded-md text-sm hover:bg-gray-700 transition duration-200 w-auto flex items-center justify-between"
+          >
+            {/* Display the selected sort option */}
+            {sortOrder === 'lowToHigh' && 'Price: Low to High'}
+            {sortOrder === 'highToLow' && 'Price: High to Low'}
+            {sortOrder === 'bestSelling' && 'Best Selling'}
+            {sortOrder === 'alphabeticallyAZ' && 'Alphabetically A-Z'}
+            {sortOrder === 'alphabeticallyZA' && 'Alphabetically Z-A'}
+            {sortOrder === 'newToOld' && 'Date: New to Old'}
+            {sortOrder === 'oldToNew' && 'Date: Old to New'}
+
+            {/* Dropdown arrow */}
+            <span className="ml-2">&#x2195;</span>
+          </button>
+
+          {/* Sort By options dropdown */}
+          {isSortOpen && (
+            <div className="absolute top-full left-0 mt-2 bg-white shadow-lg w-48 rounded-md z-10">
+              <div className="flex flex-col">
+                <button
+                  onClick={() => {
+                    setSortOrder('lowToHigh');
+                    setIsSortOpen(false); // Close the dropdown on option select
+                  }}
+                  className="p-2 hover:bg-gray-100 transition duration-200"
+                >
+                  Price: Low to High
+                </button>
+                <button
+                  onClick={() => {
+                    setSortOrder('highToLow');
+                    setIsSortOpen(false);
+                  }}
+                  className="p-2 hover:bg-gray-100 transition duration-200"
+                >
+                  Price: High to Low
+                </button>
+                <button
+                  onClick={() => {
+                    setSortOrder('bestSelling');
+                    setIsSortOpen(false);
+                  }}
+                  className="p-2 hover:bg-gray-100 transition duration-200"
+                >
+                  Best Selling
+                </button>
+                <button
+                  onClick={() => {
+                    setSortOrder('alphabeticallyAZ');
+                    setIsSortOpen(false);
+                  }}
+                  className="p-2 hover:bg-gray-100 transition duration-200"
+                >
+                  Alphabetically A-Z
+                </button>
+                <button
+                  onClick={() => {
+                    setSortOrder('alphabeticallyZA');
+                    setIsSortOpen(false);
+                  }}
+                  className="p-2 hover:bg-gray-100 transition duration-200"
+                >
+                  Alphabetically Z-A
+                </button>
+                <button
+                  onClick={() => {
+                    setSortOrder('newToOld');
+                    setIsSortOpen(false);
+                  }}
+                  className="p-2 hover:bg-gray-100 transition duration-200"
+                >
+                  Date: New to Old
+                </button>
+                <button
+                  onClick={() => {
+                    setSortOrder('oldToNew');
+                    setIsSortOpen(false);
+                  }}
+                  className="p-2 hover:bg-gray-100 transition duration-200"
+                >
+                  Date: Old to New
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Product Count */}
+        <div className="flex items-center">
+          <p className="mr-4 text-lg">{sortedProducts.length} Products</p>
+        </div>
+      </div>
+
+      {/* Product List */}
+      <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {sortedProducts.map((product) => (
           <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg text-center">
             <div className="bg-gray-100 p-4 rounded-md">
               <Link href={`/women/ring/${product.slug.current}`}>
@@ -67,9 +190,10 @@ const Wring = ({ category }: { category: string }) => {
               <h2 className="text-lg font-semibold">{product.name}</h2>
             </Link>
             <p className="text-gray-700 font-medium">
-              Price: {product.price.toFixed(2)} {/* Format the price */}
+              Price: ${product.price.toFixed(2)} {/* Format the price */}
             </p>
-            <button style={{backgroundColor: "#7e5c14"}}
+            <button
+              style={{ backgroundColor: "#7e5c14" }}
               onClick={() =>
                 addToCart({
                   id: product._id,
