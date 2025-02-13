@@ -55,7 +55,7 @@ const Header = () => {
 
         {/* Logo */}
         <div className="flex-grow flex justify-center sm:justify-start">
-          <Link href="/" className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#000000] to-[#7e5c14] hover:opacity-90 transform transition-all duration-300 ease-in-out sm:text-3xl">
+          <Link href="/" className="text-4xl sm: text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#000000] to-[#7e5c14] hover:opacity-90 transform transition-all duration-300 ease-in-out sm:text-3xl">
             A to Z
           </Link>
         </div>
@@ -82,7 +82,7 @@ const Header = () => {
 
           {/* Cart Icon */}
           <Link href="/cart" className="relative">
-            <ShoppingCartIcon className="w-6 h-6 text-black hover:text-gray-600" />
+            <ShoppingCartIcon className="w-6 h-6  text-black hover:text-gray-600 " />
             {isHydrated && cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                 {cartCount}

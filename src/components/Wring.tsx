@@ -73,103 +73,101 @@ const Wring = ({ category }: { category: string }) => {
       </div>
 
       {/* Filters and Sorting */}
-      <div className="flex justify-between items-center mb-6">
-        {/* Sort By Button */}
-        <div className="relative flex items-center">
+<div className="flex justify-between items-center mb-6">
+  {/* Sort By Button */}
+  <div className="relative flex items-center">
+    <button
+      onClick={() => setIsSortOpen(!isSortOpen)}
+      className="bg-gray-800 text-white py-2 px-4 rounded-md text-sm hover:bg-gray-700 transition duration-200 w-auto flex items-center justify-between"
+    >
+      {/* Sort By Text with Icon */}
+      <span className="flex items-center">
+         {/* Replace with your actual icon */}
+        Sort By
+      </span>
+
+      {/* Dropdown arrow */}
+      <span className="ml-2">&#x2195;</span>
+    </button>
+
+    {/* Sort By options dropdown */}
+    {isSortOpen && (
+      <div className="absolute top-full left-0 mt-2 bg-white shadow-lg w-48 rounded-md z-10">
+        <div className="flex flex-col">
           <button
-            onClick={() => setIsSortOpen(!isSortOpen)}
-            className="bg-gray-800 text-white py-2 px-4 rounded-md text-sm hover:bg-gray-700 transition duration-200 w-auto flex items-center justify-between"
+            onClick={() => {
+              setSortOrder('lowToHigh');
+              setIsSortOpen(false);
+            }}
+            className="p-2 hover:bg-gray-100 transition duration-200"
           >
-            {/* Display the selected sort option */}
-            {sortOrder === 'lowToHigh' && 'Price: Low to High'}
-            {sortOrder === 'highToLow' && 'Price: High to Low'}
-            {sortOrder === 'bestSelling' && 'Best Selling'}
-            {sortOrder === 'alphabeticallyAZ' && 'Alphabetically A-Z'}
-            {sortOrder === 'alphabeticallyZA' && 'Alphabetically Z-A'}
-            {sortOrder === 'newToOld' && 'Date: New to Old'}
-            {sortOrder === 'oldToNew' && 'Date: Old to New'}
-
-            {/* Dropdown arrow */}
-            <span className="ml-2">&#x2195;</span>
+            Price: Low to High
           </button>
-
-          {/* Sort By options dropdown */}
-          {isSortOpen && (
-            <div className="absolute top-full left-0 mt-2 bg-white shadow-lg w-48 rounded-md z-10">
-              <div className="flex flex-col">
-                <button
-                  onClick={() => {
-                    setSortOrder('lowToHigh');
-                    setIsSortOpen(false); // Close the dropdown on option select
-                  }}
-                  className="p-2 hover:bg-gray-100 transition duration-200"
-                >
-                  Price: Low to High
-                </button>
-                <button
-                  onClick={() => {
-                    setSortOrder('highToLow');
-                    setIsSortOpen(false);
-                  }}
-                  className="p-2 hover:bg-gray-100 transition duration-200"
-                >
-                  Price: High to Low
-                </button>
-                <button
-                  onClick={() => {
-                    setSortOrder('bestSelling');
-                    setIsSortOpen(false);
-                  }}
-                  className="p-2 hover:bg-gray-100 transition duration-200"
-                >
-                  Best Selling
-                </button>
-                <button
-                  onClick={() => {
-                    setSortOrder('alphabeticallyAZ');
-                    setIsSortOpen(false);
-                  }}
-                  className="p-2 hover:bg-gray-100 transition duration-200"
-                >
-                  Alphabetically A-Z
-                </button>
-                <button
-                  onClick={() => {
-                    setSortOrder('alphabeticallyZA');
-                    setIsSortOpen(false);
-                  }}
-                  className="p-2 hover:bg-gray-100 transition duration-200"
-                >
-                  Alphabetically Z-A
-                </button>
-                <button
-                  onClick={() => {
-                    setSortOrder('newToOld');
-                    setIsSortOpen(false);
-                  }}
-                  className="p-2 hover:bg-gray-100 transition duration-200"
-                >
-                  Date: New to Old
-                </button>
-                <button
-                  onClick={() => {
-                    setSortOrder('oldToNew');
-                    setIsSortOpen(false);
-                  }}
-                  className="p-2 hover:bg-gray-100 transition duration-200"
-                >
-                  Date: Old to New
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Product Count */}
-        <div className="flex items-center">
-          <p className="mr-4 text-lg">{sortedProducts.length} Products</p>
+          <button
+            onClick={() => {
+              setSortOrder('highToLow');
+              setIsSortOpen(false);
+            }}
+            className="p-2 hover:bg-gray-100 transition duration-200"
+          >
+            Price: High to Low
+          </button>
+          <button
+            onClick={() => {
+              setSortOrder('bestSelling');
+              setIsSortOpen(false);
+            }}
+            className="p-2 hover:bg-gray-100 transition duration-200"
+          >
+            Best Selling
+          </button>
+          <button
+            onClick={() => {
+              setSortOrder('alphabeticallyAZ');
+              setIsSortOpen(false);
+            }}
+            className="p-2 hover:bg-gray-100 transition duration-200"
+          >
+            Alphabetically A-Z
+          </button>
+          <button
+            onClick={() => {
+              setSortOrder('alphabeticallyZA');
+              setIsSortOpen(false);
+            }}
+            className="p-2 hover:bg-gray-100 transition duration-200"
+          >
+            Alphabetically Z-A
+          </button>
+          <button
+            onClick={() => {
+              setSortOrder('newToOld');
+              setIsSortOpen(false);
+            }}
+            className="p-2 hover:bg-gray-100 transition duration-200"
+          >
+            Date: New to Old
+          </button>
+          <button
+            onClick={() => {
+              setSortOrder('oldToNew');
+              setIsSortOpen(false);
+            }}
+            className="p-2 hover:bg-gray-100 transition duration-200"
+          >
+            Date: Old to New
+          </button>
         </div>
       </div>
+    )}
+  </div>
+
+  {/* Product Count */}
+  <div className="flex items-center">
+    <p className="mr-4 text-lg">{sortedProducts.length} Products</p>
+  </div>
+</div>
+         
 
       {/* Product List */}
       <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
