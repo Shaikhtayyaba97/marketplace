@@ -66,8 +66,8 @@ const Wring = ({ category }: { category: string }) => {
     <div className="container mx-auto p-4">
       {/* Description */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-center mb-4"> Rings</h1>
-        <p className="text-center text-gray-600">
+        <h1 className="text-3xl font-bold text-left mb-4"> Rings</h1>
+        <p className="text-left text-gray-600">
           Waterproof, Stainless Steel Necklace with 18k Gold Plated, Tarnish Free and Color Guaranteed for Long-Lasting Wear.
         </p>
       </div>
