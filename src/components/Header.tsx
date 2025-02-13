@@ -79,7 +79,7 @@ const Header = () => {
         </Link>
         {/* Only render the cart count after hydration */}
         {isHydrated && cartCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-[#0f100e] text-black text-sm rounded-full h-5 w-5 flex items-center justify-center">
+          <span className="absolute -top-2 -right-2  text-red-800 text-sm rounded-full h-5 w-5 flex items-center justify-center">
             {cartCount}
           </span>
         )}
