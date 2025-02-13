@@ -63,7 +63,7 @@ const Wring = ({ category }: { category: string }) => {
   if (!sortedProducts.length) return <p>No products found for &quot;{searchQuery}&quot;.</p>;
 
   return (
-    <div className="container mx-auto p-4 bg-white">
+    <div className="container mx-auto p-10 bg-white">
       {/* Description */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-left mb-4"> Rings</h1>
