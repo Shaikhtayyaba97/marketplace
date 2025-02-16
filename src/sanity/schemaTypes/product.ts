@@ -109,10 +109,8 @@ export default {
       {
         name: 'image',
         title: 'Product Image',
-        type: 'image',
-        options: {
-          hotspot: true,
-        },
+        type: 'string',
+        description: 'Cloudinary Image URL'
       },
     ],
   };

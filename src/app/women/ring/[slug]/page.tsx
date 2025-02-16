@@ -16,7 +16,7 @@ interface Product {
   slug: { current: string };
   category: string;
   stock: number;
-  imageUrl: string;
+  image:string
 }
 
 // Dynamic page component to render product details
@@ -34,7 +34,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       slug,
       stock,
       category,
-      "imageUrl": image.asset->url
+      image
     }`,
     { slug }
   );
@@ -51,7 +51,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
       {/* Product Image */}
       <Image
-        src={(product.imageUrl)}
+        src={(product.image)}
         alt={product.name}
         width={600}
         height={600}
