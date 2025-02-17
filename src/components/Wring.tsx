@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useSearch } from "@/context/ProductContext";
-import { useTheme } from "next-themes"; // Importing next-themes
 
 interface Product {
   _id: string;
@@ -20,7 +19,6 @@ interface Product {
 const Wring = ({ category }: { category: string }) => {
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
-  const { theme } = useTheme(); // Get current theme
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [priceFilter, setPriceFilter] = useState<{ min: number; max: number }>({
@@ -82,10 +80,10 @@ const Wring = ({ category }: { category: string }) => {
     return <p className="text-center text-lg font-semibold">No products found for &quot;{searchQuery}&quot;.</p>;
 
   return (
-    <div className="container mx-auto p-10 bg-white dark:bg-gray-900 text-black dark:text-white">
+    <div className="container mx-auto p-10 !bg-white !text-black">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-left mb-4">Rings</h1>
-        <p className="text-left text-gray-600 dark:text-gray-300">
+        <p className="text-left text-gray-600">
           Waterproof, Stainless Steel Necklace with 18k Gold Plated, Tarnish Free and Color Guaranteed for Long-Lasting Wear.
         </p>
       </div>
@@ -95,11 +93,7 @@ const Wring = ({ category }: { category: string }) => {
         <div className="relative flex items-center" ref={sortRef}>
           <button
             onClick={() => setIsSortOpen(!isSortOpen)}
-            className="py-2 px-4 rounded-md text-sm transition duration-200 flex items-center justify-between"
-            style={{
-              backgroundColor: theme === "dark" ? "#1f2937" : "#f9f9f9",
-              color: theme === "dark" ? "#ffffff" : "#000000",
-            }}
+            className="py-2 px-4 rounded-md text-sm transition duration-200 flex items-center justify-between bg-gray-200 text-black"
           >
             <span>Sort By</span>
             <span className="ml-2">&#x2195;</span>
@@ -107,11 +101,7 @@ const Wring = ({ category }: { category: string }) => {
 
           {isSortOpen && (
             <div
-              className="absolute top-full left-0 mt-2 shadow-lg w-48 rounded-md z-10"
-              style={{
-                backgroundColor: theme === "dark" ? "#1f2937" : "#ffffff",
-                color: theme === "dark" ? "#ffffff" : "#000000",
-              }}
+              className="absolute top-full left-0 mt-2 shadow-lg w-48 rounded-md z-10 bg-white text-black"
             >
               <div className="flex flex-col">
                 {[
@@ -129,7 +119,7 @@ const Wring = ({ category }: { category: string }) => {
                       setSortOrder(value as any);
                       setIsSortOpen(false);
                     }}
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200"
+                    className="p-2 hover:bg-gray-100 transition duration-200"
                   >
                     {label}
                   </button>
@@ -144,8 +134,8 @@ const Wring = ({ category }: { category: string }) => {
       {/* Product List */}
       <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {sortedProducts.map((product) => (
-          <li key={product._id} className="p-4 rounded-lg shadow-lg text-center bg-white dark:bg-gray-800">
-            <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md">
+          <li key={product._id} className="p-4 rounded-lg shadow-lg text-center !bg-white !text-black">
+            <div className="bg-gray-100 p-4 rounded-md">
               <Link href={`/women/ring/${product.slug.current}`}>
                 <Image
                   src={product.image}
