@@ -5,7 +5,8 @@ import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { useSearch } from "@/context/ProductContext"; // Search context
+import { useSearch } from "@/context/ProductContext";
+import { useTheme } from "next-themes"; // Importing next-themes
 
 interface Product {
   _id: string;
@@ -13,12 +14,13 @@ interface Product {
   price: number;
   slug: { current: string };
   image: string;
-  createdAt?: string; // Add this in Sanity for proper sorting
+  createdAt?: string;
 }
 
 const Wring = ({ category }: { category: string }) => {
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
+  const { theme } = useTheme(); // Get current theme
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [priceFilter, setPriceFilter] = useState<{ min: number; max: number }>({
@@ -32,7 +34,6 @@ const Wring = ({ category }: { category: string }) => {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
 
-  // Fetch products from Sanity
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -40,7 +41,6 @@ const Wring = ({ category }: { category: string }) => {
         const query = `*[_type == "product" && category == $category] {
         _id, name, price, slug, image
       }`;
-      console.log(fetchProducts)
         const fetchedProducts = await client.fetch(query, { category });
         setProducts(fetchedProducts);
       } catch (error) {
@@ -52,7 +52,6 @@ const Wring = ({ category }: { category: string }) => {
     fetchProducts();
   }, [category]);
 
-  // Close sort dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
@@ -63,12 +62,10 @@ const Wring = ({ category }: { category: string }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Filter products based on search and price range
   const filteredProducts = products
     .filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase()))
     .filter((product) => product.price >= priceFilter.min && product.price <= priceFilter.max);
 
-  // Sorting Logic
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOrder === "lowToHigh") return a.price - b.price;
     if (sortOrder === "highToLow") return b.price - a.price;
@@ -85,10 +82,10 @@ const Wring = ({ category }: { category: string }) => {
     return <p className="text-center text-lg font-semibold">No products found for &quot;{searchQuery}&quot;.</p>;
 
   return (
-    <div className="container mx-auto p-10 bg-white">
+    <div className="container mx-auto p-10 bg-white dark:bg-gray-900 text-black dark:text-white">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-left mb-4">Rings</h1>
-        <p className="text-left text-gray-600">
+        <p className="text-left text-gray-600 dark:text-gray-300">
           Waterproof, Stainless Steel Necklace with 18k Gold Plated, Tarnish Free and Color Guaranteed for Long-Lasting Wear.
         </p>
       </div>
@@ -98,14 +95,24 @@ const Wring = ({ category }: { category: string }) => {
         <div className="relative flex items-center" ref={sortRef}>
           <button
             onClick={() => setIsSortOpen(!isSortOpen)}
-            className="bg-gray-800 text-white py-2 px-4 rounded-md text-sm hover:bg-gray-700 transition duration-200 flex items-center justify-between"
+            className="py-2 px-4 rounded-md text-sm transition duration-200 flex items-center justify-between"
+            style={{
+              backgroundColor: theme === "dark" ? "#1f2937" : "#f9f9f9",
+              color: theme === "dark" ? "#ffffff" : "#000000",
+            }}
           >
             <span>Sort By</span>
             <span className="ml-2">&#x2195;</span>
           </button>
 
           {isSortOpen && (
-            <div className="absolute top-full left-0 mt-2 bg-white shadow-lg w-48 rounded-md z-10">
+            <div
+              className="absolute top-full left-0 mt-2 shadow-lg w-48 rounded-md z-10"
+              style={{
+                backgroundColor: theme === "dark" ? "#1f2937" : "#ffffff",
+                color: theme === "dark" ? "#ffffff" : "#000000",
+              }}
+            >
               <div className="flex flex-col">
                 {[
                   { label: "Price: Low to High", value: "lowToHigh" },
@@ -122,7 +129,7 @@ const Wring = ({ category }: { category: string }) => {
                       setSortOrder(value as any);
                       setIsSortOpen(false);
                     }}
-                    className="p-2 hover:bg-gray-100 transition duration-200"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200"
                   >
                     {label}
                   </button>
@@ -137,8 +144,8 @@ const Wring = ({ category }: { category: string }) => {
       {/* Product List */}
       <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {sortedProducts.map((product) => (
-          <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg text-center">
-            <div className="bg-gray-100 p-4 rounded-md">
+          <li key={product._id} className="p-4 rounded-lg shadow-lg text-center bg-white dark:bg-gray-800">
+            <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md">
               <Link href={`/women/ring/${product.slug.current}`}>
                 <Image
                   src={product.image}
@@ -152,7 +159,7 @@ const Wring = ({ category }: { category: string }) => {
             <Link href={`/women/ring/${product.slug.current}`}>
               <h2 className="text-lg font-semibold">{product.name}</h2>
             </Link>
-            <p className="text-gray-700 font-medium">Price: ${product.price.toFixed(2)}</p>
+            <p className="font-medium">Price: ${product.price.toFixed(2)}</p>
             <button
               style={{ backgroundColor: "#7e5c14" }}
               onClick={() => addToCart({ id: product._id, name: product.name, price: product.price, quantity: 1, image: product.image })}
