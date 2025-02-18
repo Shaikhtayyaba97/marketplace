@@ -7,6 +7,7 @@ export interface Product {
   slug: { current: string };
   imageUrl: string;
   price: number;
+  
 }
 
 export const fetchProducts = async (searchQuery: string): Promise<Product[]> => {
