@@ -33,7 +33,7 @@ const CartPage = () => {
             <div key={item.id} className="flex justify-between items-center border-b py-4">
             
 <Image
-  src={urlFor(item.image).url()} // Sanity image URL fetch
+  src={item.image} // Sanity image URL fetch
   alt={item.name}
   className="w-16 h-16 object-cover rounded"
   width={100}

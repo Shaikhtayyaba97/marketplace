@@ -146,7 +146,7 @@ const Wring = ({ category }: { category: string }) => {
             <Link href={`/women/ring/${product.slug.current}`}>
               <h2 className="text-lg font-semibold">{product.name}</h2>
             </Link>
-            <div className="flex justify-center items-center gap-2 flex-col md:flex-row">
+            <div className="flex justify-center items-center gap-2 flex-col ">
               <p className="text-gray-400 line-through">{product.originalPrice.toFixed(2)}</p>
               <p className="text-red-500 font-semibold">{product.discountedPrice.toFixed(2)}</p>
             </div>
