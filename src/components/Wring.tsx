@@ -19,7 +19,7 @@ interface Product {
 }
 
 const Wring = ({ category }: { category: string }) => {
-  const router = useRouter()
+  const router = useRouter();
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
   const [products, setProducts] = useState<Product[]>([]);
@@ -137,8 +137,8 @@ const Wring = ({ category }: { category: string }) => {
                 <Image
                   src={product.image}
                   alt={product.name}
-                  width={120}
-                  height={120}
+                  width={100}
+                  height={100}
                   className="mx-auto object-contain"
                 />
               </Link>
@@ -146,10 +146,9 @@ const Wring = ({ category }: { category: string }) => {
             <Link href={`/women/ring/${product.slug.current}`}>
               <h2 className="text-lg font-semibold">{product.name}</h2>
             </Link>
-            <div className="flex justify-center items-center gap-2">
-            <p className="text-gray-400 line-through">{product.originalPrice.toFixed(2)}</p> <br />
+            <div className="flex justify-center items-center gap-2 flex-col md:flex-row">
+              <p className="text-gray-400 line-through">{product.originalPrice.toFixed(2)}</p>
               <p className="text-red-500 font-semibold">{product.discountedPrice.toFixed(2)}</p>
-             
             </div>
             {/* Buttons */}
             <div className="flex flex-col gap-2 mt-3">
@@ -164,25 +163,26 @@ const Wring = ({ category }: { category: string }) => {
                     image: product.image,
                   })
                 }
-                className="text-white py-2 px-4 rounded-lg"
+                className="text-white py-2 px-4 rounded-lg w-full  "
               >
                 Add to Cart
               </button>
-            <button
-  className="w-full border border-black py-2 text-black hover:bg-gray-200 transition"
-  onClick={() => {
-    addToCart({
-      id: product._id,
-      name: product.name,
-      price: product.discountedPrice,
-      quantity: 1,
-      image: product.image,
-    });
-    router.push("/checkout"); // Checkout page par redirect
-  }}
->
-  Buy Now
-</button> </div>
+              <button
+                className="w-full border border-black py-2 text-black hover:bg-gray-200 transition"
+                onClick={() => {
+                  addToCart({
+                    id: product._id,
+                    name: product.name,
+                    price: product.discountedPrice,
+                    quantity: 1,
+                    image: product.image,
+                  });
+                  router.push("/checkout"); // Checkout page par redirect
+                }}
+              >
+                Buy Now
+              </button>
+            </div>
           </li>
         ))}
       </ul>
