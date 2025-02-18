@@ -100,15 +100,17 @@ export default {
         name: 'discountedPrice',
         type: 'number'
       },
-      {
-        name: 'stock',
-        title: 'Stock Quantity',
-        type: 'number',
-      },
+      
       {
         name: 'description',
         title: 'Description',
         type: 'text',
+      },
+      {
+        name: 'stock',
+        title: 'Stock Quantity',
+        type: 'number',
+        validation: (Rule:any) => Rule.min(0).warning('Stock cannot be negative'),
       },
       
       {

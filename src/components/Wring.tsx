@@ -16,6 +16,7 @@ interface Product {
   slug: { current: string };
   image: string;
   createdAt?: string;
+  stock:number;
 }
 
 const Wring = ({ category }: { category: string }) => {
@@ -36,7 +37,7 @@ const Wring = ({ category }: { category: string }) => {
       setLoading(true);
       try {
         const query = `*[_type == "product" && category == $category] {
-          _id, name, originalPrice, discountedPrice, slug, image
+          _id, name, originalPrice, discountedPrice, slug, image, stock
         }`;
         const fetchedProducts = await client.fetch(query, { category });
         setProducts(fetchedProducts);
@@ -142,6 +143,13 @@ const Wring = ({ category }: { category: string }) => {
                   className="mx-auto object-contain"
                 />
               </Link>
+              <div className="flex justify-between items-center">
+  {product.stock > 0 ? (
+    <p className="text-green-500">In Stock: {product.stock}</p>
+  ) : (
+    <p className="text-red-500">Out of Stock</p>
+  )}
+</div>
             </div>
             <Link href={`/women/ring/${product.slug.current}`}>
               <h2 className="text-lg font-semibold">{product.name}</h2>
@@ -153,20 +161,12 @@ const Wring = ({ category }: { category: string }) => {
             {/* Buttons */}
             <div className="flex flex-col gap-2 mt-3">
             <button
-                
-                onClick={() =>
-                  addToCart({
-                    id: product._id,
-                    name: product.name,
-                    price: product.discountedPrice,
-                    quantity: 1,
-                    image: product.image,
-                  })
-                }
-                className="w-full border border-black py-2 text-black hover:bg-gray-200 transition  "
-              >
-                Add to cart
-              </button>
+  onClick={() => addToCart({ id: product._id, name: product.name, price: product.discountedPrice, quantity: 1, image: product.image, stock:product.stock })}
+  disabled={product.stock === 0}
+  className={`w-full py-2 ${product.stock === 0 ? 'bg-gray-400 cursor-not-allowed' : 'w-full border border-black py-2 text-black hover:bg-gray-200 transition'}`}
+>
+  {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+</button>
             <button
             style={{ backgroundColor: "#7e5c14" }}
                 className="w-full border rounded-lg border-white py-2 text-white hover:bg-gray-200 transition"
@@ -177,6 +177,7 @@ const Wring = ({ category }: { category: string }) => {
                     price: product.discountedPrice,
                     quantity: 1,
                     image: product.image,
+                    stock:product.stock
                   });
                   router.push("/checkout"); // Checkout page par redirect
                 }}

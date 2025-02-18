@@ -6,6 +6,7 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  stock: number; // Added stock field
   image: string;
 }
 
@@ -34,11 +35,14 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     case 'ADD_TO_CART':
       const existingItem = state.find((item) => item.id === action.payload.id);
       if (existingItem) {
-        return state.map((item) =>
-          item.id === action.payload.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
+        if (existingItem.quantity < existingItem.stock) {
+          return state.map((item) =>
+            item.id === action.payload.id ? { ...item, quantity: item.quantity + 1 } : item
+          );
+        }
+        return state; // If stock limit is reached, do nothing
       } else {
-        return [...state, { ...action.payload, quantity: 1 }];
+        return action.payload.stock > 0 ? [...state, { ...action.payload, quantity: 1 }] : state;
       }
 
     case 'REMOVE_FROM_CART':
@@ -46,7 +50,9 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
     case 'INCREMENT_QUANTITY':
       return state.map((item) =>
-        item.id === action.payload ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === action.payload && item.quantity < item.stock
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       );
 
     case 'DECREMENT_QUANTITY':
@@ -88,8 +94,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, [cartItems]);
 
   const addToCart = (item: CartItem) => {
-    dispatch({ type: 'ADD_TO_CART', payload: item });
-    showNotification(`${item.name} added to cart!`);
+    if (item.stock > 0) {
+      dispatch({ type: 'ADD_TO_CART', payload: item });
+      showNotification(`${item.name} added to cart!`);
+    } else {
+      showNotification(`${item.name} is out of stock!`);
+    }
   };
 
   const removeFromCart = (id: string) => {
