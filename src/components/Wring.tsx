@@ -152,6 +152,21 @@ const Wring = ({ category }: { category: string }) => {
             </div>
             {/* Buttons */}
             <div className="flex flex-col gap-2 mt-3">
+            <button
+                className="w-full border border-black py-2 text-black hover:bg-gray-200 transition"
+                onClick={() => {
+                  addToCart({
+                    id: product._id,
+                    name: product.name,
+                    price: product.discountedPrice,
+                    quantity: 1,
+                    image: product.image,
+                  });
+                  router.push("/checkout"); // Checkout page par redirect
+                }}
+              >
+                Add to cart
+              </button>
               <button
                 style={{ backgroundColor: "#7e5c14" }}
                 onClick={() =>
@@ -165,23 +180,9 @@ const Wring = ({ category }: { category: string }) => {
                 }
                 className="text-white py-2 px-4 rounded-lg w-full  "
               >
-                Add to Cart
+                Buy now
               </button>
-              <button
-                className="w-full border border-black py-2 text-black hover:bg-gray-200 transition"
-                onClick={() => {
-                  addToCart({
-                    id: product._id,
-                    name: product.name,
-                    price: product.discountedPrice,
-                    quantity: 1,
-                    image: product.image,
-                  });
-                  router.push("/checkout"); // Checkout page par redirect
-                }}
-              >
-                Buy Now
-              </button>
+              
             </div>
           </li>
         ))}
