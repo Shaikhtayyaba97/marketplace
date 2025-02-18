@@ -14,6 +14,7 @@ interface Product {
   price: number;
   slug: { current: string };
   image:any;
+stock:number
 }
 
 const Mwatch = ({ category }: { category: string }) => {
@@ -77,6 +78,7 @@ const Mwatch = ({ category }: { category: string }) => {
                   price: product.price,
                   quantity: 1,
                   image: product.image,
+                  stock:product.stock
                 })
               }
               className=" text-white py-2 px-4 rounded-lg mt-4"

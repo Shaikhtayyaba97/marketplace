@@ -13,7 +13,8 @@ interface Product {
   name: string;
   price: number;
   slug: { current: string };
-  image:any;
+  image:string;
+  stock:number
 }
 
 const Maring = ({ category }: { category: string }) => {
@@ -77,6 +78,7 @@ const Maring = ({ category }: { category: string }) => {
                   price: product.price,
                   quantity: 1,
                   image: product.image,
+                  stock:product.stock
                 })
               }
               className=" text-white py-2 px-4 rounded-lg mt-4"
