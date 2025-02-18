@@ -169,7 +169,7 @@ const Wring = ({ category }: { category: string }) => {
               </button>
             <button
             style={{ backgroundColor: "#7e5c14" }}
-                className="w-full border rounded-lg border-black py-2 text-white hover:bg-gray-200 transition"
+                className="w-full border rounded-lg border-white py-2 text-white hover:bg-gray-200 transition"
                 onClick={() => {
                   addToCart({
                     id: product._id,
