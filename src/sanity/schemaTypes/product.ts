@@ -91,9 +91,14 @@ export default {
         description: 'Keywords related to this product for better search results',
       },
       {
-        name: 'price',
-        title: 'Price',
-        type: 'number',
+        title: 'Original Price',
+        name: 'originalPrice',
+        type: 'number'
+      },
+      {
+        title: 'Discounted Price',
+        name: 'discountedPrice',
+        type: 'number'
       },
       {
         name: 'stock',
