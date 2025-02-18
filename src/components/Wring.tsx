@@ -153,7 +153,23 @@ const Wring = ({ category }: { category: string }) => {
             {/* Buttons */}
             <div className="flex flex-col gap-2 mt-3">
             <button
-                className="w-full border border-black py-2 text-black hover:bg-gray-200 transition"
+                
+                onClick={() =>
+                  addToCart({
+                    id: product._id,
+                    name: product.name,
+                    price: product.discountedPrice,
+                    quantity: 1,
+                    image: product.image,
+                  })
+                }
+                className="w-full border border-black py-2 text-black hover:bg-gray-200 transition  "
+              >
+                Add to cart
+              </button>
+            <button
+            style={{ backgroundColor: "#7e5c14" }}
+                className="w-full border rounded-lg border-black py-2 text-white hover:bg-gray-200 transition"
                 onClick={() => {
                   addToCart({
                     id: product._id,
@@ -165,23 +181,9 @@ const Wring = ({ category }: { category: string }) => {
                   router.push("/checkout"); // Checkout page par redirect
                 }}
               >
-                Add to cart
-              </button>
-              <button
-                style={{ backgroundColor: "#7e5c14" }}
-                onClick={() =>
-                  addToCart({
-                    id: product._id,
-                    name: product.name,
-                    price: product.discountedPrice,
-                    quantity: 1,
-                    image: product.image,
-                  })
-                }
-                className="text-white py-2 px-4 rounded-lg w-full  "
-              >
                 Buy now
               </button>
+              
               
             </div>
           </li>
