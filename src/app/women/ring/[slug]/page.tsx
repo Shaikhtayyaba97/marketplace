@@ -1,22 +1,18 @@
-// app/shampoo/[slug]/page.tsx
 import { client } from "@/sanity/lib/client"; // Sanity client import
 import Image from "next/image"; // Image component for optimized images
 import { notFound } from "next/navigation"; // For handling 404 errors
-
-
-
-
+import AddToCartButtons from "@/components/AddToCartButtons";
 
 // Define a Product interface to structure the product data
 interface Product {
   _id: string;
   name: string;
   description: string;
-  price: number;
+  originalPrice: number;
   slug: { current: string };
   category: string;
   stock: number;
-  image:string
+  image: string;
 }
 
 // Dynamic page component to render product details
@@ -24,13 +20,12 @@ export default async function ProductPage({ params }: { params: { slug: string }
   const { slug } = params;
 
   // Fetch product data based on the slug from Sanity
- 
   const product: Product | null = await client.fetch(
     `*[_type == "product" && slug.current == $slug][0] {
       _id,
       name,
       description,
-      price,
+      originalPrice,
       slug,
       stock,
       category,
@@ -40,52 +35,43 @@ export default async function ProductPage({ params }: { params: { slug: string }
   );
 
   // If the product is not found, show a 404 page 
-  if (!product) {
-    notFound();
-  }
+  if (!product) return notFound();
 
   return (
-    <div className="max-w-4xl mx-auto p-6 ">
-      {/* Product Name */}
-      <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+    <div className="container mx-auto p-10 bg-white text-black">
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* Product Image */}
+        <div className="w-full md:w-1/2  flex justify-center">
+          <Image src={product.image} alt={product.name} width={100} height={100} className="object-contain rounded-lg" />
+        </div>
 
-      {/* Product Image */}
-      <Image
-        src={(product.image)}
-        alt={product.name}
-        width={600}
-        height={600}
-        className="rounded-lg"
-      />
+        {/* Product Details */}
+        <div className="w-full md:w-1/2">
+          <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+          <p className="text-gray-600 mb-4">{product.description}</p>
 
-      <div className="mt-6">
-        {/* Product Price */}
-        <p className="text-lg">
-          Price: <strong>{product.price}</strong>
-        </p>
-        <p className="text-lg">
-          Stock: <strong>{product.stock}</strong>
-        </p>
+          {/* Stock Status */}
+          <p className={`text-lg font-semibold ${product.stock > 0 ? "text-green-500" : "text-red-500"}`}>
+            {product.stock > 0 ? `In Stock: ${product.stock}` : "Out of Stock"}
+          </p>
 
-        {/* Product Description */}
-        <p className="mt-4 text-gray-700">{product.description}</p>
-        
-       
+          {/* Price */}
+          <p className="text-xl text-gray-700 mt-2">
+            Price: <span className="font-semibold text-red-500">${product.originalPrice.toFixed(2)}</span>
+          </p>
+
+          {/* Add to Cart Button (Disabled if Out of Stock) */}
+          <div className="mt-4">
+            {product.stock > 0 ? (
+              <AddToCartButtons product={product} />
+            ) : (
+              <button className="bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed" disabled>
+                Out of Stock
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
-}
-
-// Generate static params for dynamic routes
-export async function generateStaticParams() {
-  // Fetch all product slugs from Sanity
-  const products: { slug: { current: string } }[] = await client.fetch(
-    `*[_type == "product"]{ "slug": slug.current }`
-  );
-  
-
-  // Return slugs as an array of objects
-  return products.map((product) => ({
-    slug: product.slug.current, // Each product's slug for dynamic routing
-  }));
 }

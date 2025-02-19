@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useSearch } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
+import AddToCartButtons from "@/components/AddToCartButtons";
 
 interface Product {
   _id: string;
@@ -159,34 +160,15 @@ const Wring = ({ category }: { category: string }) => {
               <p className="text-red-500 font-semibold">{product.discountedPrice.toFixed(2)}</p>
             </div>
             {/* Buttons */}
-            <div className="flex flex-col gap-2 mt-3">
-            <button
-  onClick={() => addToCart({ id: product._id, name: product.name, price: product.discountedPrice, quantity: 1, image: product.image, stock:product.stock })}
-  disabled={product.stock === 0}
-  className={`w-full py-2 ${product.stock === 0 ? 'bg-gray-400 cursor-not-allowed' : 'w-full border border-black py-2 text-black hover:bg-gray-200 transition'}`}
->
-  {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
-</button>
-            <button
-            style={{ backgroundColor: "#7e5c14" }}
-                className="w-full border rounded-lg border-white py-2 text-white hover:bg-gray-200 transition"
-                onClick={() => {
-                  addToCart({
-                    id: product._id,
-                    name: product.name,
-                    price: product.discountedPrice,
-                    quantity: 1,
-                    image: product.image,
-                    stock:product.stock
-                  });
-                  router.push("/checkout"); // Checkout page par redirect
-                }}
-              >
-                Buy now
-              </button>
-              
-              
-            </div>
+          
+
+            <AddToCartButtons product={{ 
+    _id: product._id,
+  name: product.name, 
+  originalPrice: product.originalPrice, 
+  stock: product.stock, 
+  image: product.image 
+}} />
           </li>
         ))}
       </ul>
