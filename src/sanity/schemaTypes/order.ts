@@ -48,6 +48,12 @@ export default {
               title: 'Product Name',
             },
             {
+              name: 'stock',
+              title: 'Stock Quantity',
+              type: 'number',
+              validation: (Rule:any) => Rule.min(0).warning('Stock cannot be negative'),
+            },
+            {
               name: 'price',
               type: 'number',
               title: 'Product Price',
@@ -59,11 +65,9 @@ export default {
             },
             {
               name: 'image',
-              title: ' Image',
-              type: 'image',
-              options: {
-                hotspot: true,
-              },
+              title: ' Product Image',
+              type: 'string',
+               description: 'Cloudinary Image URL'
             },
           ],
         },
