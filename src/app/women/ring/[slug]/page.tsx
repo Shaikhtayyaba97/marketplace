@@ -40,10 +40,17 @@ export default async function ProductPage({ params }: { params: { slug: string }
   return (
     <div className="container mx-auto p-10 bg-white text-black">
       <div className="flex flex-col md:flex-row gap-6">
-        {/* Product Image */}
-        <div className="w-full md:w-1/2  flex justify-center">
-          <Image src={product.image} alt={product.name} width={100} height={100} className="object-contain rounded-lg" />
-        </div>
+  {/* Product Image */}
+  <div className="w-full md:w-1/2 flex justify-center">
+    <Image 
+      src={product.image} 
+      alt={product.name} 
+      width={300} 
+      height={300} 
+      className="object-contain rounded-lg w-52 h-52 md:w-96 md:h-96"
+    />
+  </div>
+
 
         {/* Product Details */}
         <div className="w-full md:w-1/2">
