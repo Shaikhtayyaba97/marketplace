@@ -47,7 +47,7 @@ const Header = () => {
       <header className="bg-white text-black px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
         {/* Mobile Menu Button */}
         <button
-          className="sm:hidden text-black"
+          className="sm:hidden bg-white text-black"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
