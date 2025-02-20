@@ -11,7 +11,7 @@ const sections = [
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-white text-black flex flex-col">
       {/* ImageSlider Component */}
       <ImageSlider />
 
