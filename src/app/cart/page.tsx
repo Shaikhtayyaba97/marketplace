@@ -19,7 +19,7 @@ const CartPage = () => {
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-white text-black shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
       {cartItems.length === 0 ? (
         <p className="text-gray-600">Your cart is empty.</p>
