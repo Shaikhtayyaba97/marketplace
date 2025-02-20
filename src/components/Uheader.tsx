@@ -74,10 +74,10 @@ const Header = () => {
         </nav>
 
         {/* Search and Cart */}
-        <div className="flex items-center space-x-4">
+        <div className="flex bg-white text-black items-center space-x-4">
           {/* Search Icon */}
           <button onClick={() => setShowSearch(!showSearch)}>
-            <MagnifyingGlassIcon className="w-6 h-6 text-black" />
+            <MagnifyingGlassIcon className="w-6 h-6 bg-white text-black" />
           </button>
 
           {/* Cart Icon */}
@@ -110,7 +110,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-start p-4 space-y-2 sm:hidden">
+        <div className="absolute top-16 left-0 w-full bg-white text-black shadow-md flex flex-col items-start p-4 space-y-2 sm:hidden">
           <Link href="/" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
           <Link href="/men" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Men</Link>
           <Link href="/women/ring" className="text-lg" onClick={() => setIsMobileMenuOpen(false)}>Ring</Link>
