@@ -1,8 +1,6 @@
-// app/shampoo/[slug]/page.tsx
 import { client } from "@/sanity/lib/client"; // Sanity client import
 import Image from "next/image"; // Image component for optimized images
 import { notFound } from "next/navigation"; // For handling 404 errors
-
 
 // Define a Product interface to structure the product data
 interface Product {
@@ -12,7 +10,6 @@ interface Product {
   price: number;
   slug: { current: string };
   category: string;
-  stock: number;
   imageUrl: string;
 }
 
@@ -28,11 +25,11 @@ export default async function ProductPage({ params }: { params: { slug: string }
       description,
       price,
       slug,
-      stock,
       category,
       "imageUrl": image.asset->url
     }`,
-    { slug }
+    { slug },
+    {cache: "no-store"}
   );
 
   // If the product is not found, show a 404 page 
@@ -74,7 +71,6 @@ export async function generateStaticParams() {
     `*[_type == "product"]{ "slug": slug.current }`
   );
   
-
   // Return slugs as an array of objects
   return products.map((product) => ({
     slug: product.slug.current, // Each product's slug for dynamic routing

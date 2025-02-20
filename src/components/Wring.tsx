@@ -162,7 +162,7 @@ const Wring = ({ category }: { category: string }) => {
             {/* Buttons */}
           
 
-            <AddToCartButtons product={{ 
+            < AddToCartButtons   product={{ 
     _id: product._id,
   name: product.name, 
   originalPrice: product.originalPrice, 
