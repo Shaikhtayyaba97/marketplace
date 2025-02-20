@@ -7,7 +7,7 @@ const WhatsAppButton = () => {
       <Link href="https://wa.me/03363856003" passHref>
         <div className="bg-green-500 p-4 rounded-full shadow-lg hover:shadow-xl transition-all">
           {/* WhatsApp Icon from React Icons */}
-          <FaWhatsapp className="text-white w-16 h-16" size={32} />
+          <FaWhatsapp className="text-white w-6 h-7" size={32} />
         </div>
       </Link>
     </div>

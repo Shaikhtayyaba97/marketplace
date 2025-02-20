@@ -16,7 +16,7 @@ const HomePage = () => {
       <ImageSlider />
 
       {/* Below Image Slider: Display Section Links */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 px-4">
+      <div className="bg-white text-black grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 px-4">
         {sections.map((section, index) => (
           <div
             key={index}
