@@ -50,7 +50,7 @@ const Header = () => {
           className="sm:hidden bg-white text-black"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
+          {isMobileMenuOpen ? <XMarkIcon className="w-6 h-6 bg-white text-black" /> : <Bars3Icon className="w-6 h-6 bg-white text-black" />}
         </button>
 
         {/* Logo */}
