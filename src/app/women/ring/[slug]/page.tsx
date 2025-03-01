@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
                 <span className="text-gray-500 line-through mr-2">
                   ${product.originalPrice.toFixed(2)}
                 </span>
-              )}
+              )} <br />
               <span className="text-red-500 font-semibold">
                 ${product.discountedPrice.toFixed(2)}
               </span>
@@ -81,7 +81,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
           </div>
 
           {/* Add to Cart Button */}
-          <div className="mt-4 md:absolute md:bottom-10 md:left-0 md:right-0 md:w-full md:flex justify-center">
+          <div className="mt-4 md:mt-6  md:bottom-10 md:left-0 md:right-0 md:w-full md:flex justify-start">
             {product.stock > 0 ? (
               <AddToCartButtons product={product} />
             ) : (
