@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ShoppingCartIcon, MagnifyingGlassIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -97,42 +97,61 @@ const Header = () => {
 
       {/* Search Bar */}
       {showSearch && (
-        <div className="absolute top-16 right-4 bg-white shadow-md p-2 rounded-md">
+        <div className="absolute top-14 right-4 sm:right-10 md:right-16 lg:right-20 bg-white shadow-md p-2 rounded-md z-50">
           <input
             type="text"
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-40 sm:w-64 md:w-80 p-2 border border-gray-300 rounded-md focus:outline-none"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
           />
+          {/* Search Results Dropdown */}
+          {loading ? (
+            <p className="text-sm text-gray-500 mt-2">Searching...</p>
+          ) : (
+            products.length > 0 && (
+              <div className="mt-2 bg-white shadow-md rounded-md max-h-60 overflow-y-auto">
+                {products.map((product) => (
+                  <Link
+                    key={product._id}
+                    href={`/product/${product.slug.current}`}
+                    className="block p-2 hover:bg-gray-100"
+                  >
+                    {product.name}
+                  </Link>
+                ))}
+              </div>
+            )
+          )}
         </div>
       )}
 
-{isMobileMenuOpen && (
-  <div className="absolute top-16 left-0 w-full bg-white text-black shadow-md flex flex-col items-start p-4 space-y-2 sm:hidden z-50">
-    <Link href="/" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-      Home
-    </Link>
-    <Link href="/men" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-      Men
-    </Link>
-    <Link href="/women/ring" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-      Ring
-    </Link>
-    <Link href="/women/bracelet" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-      Bracelet
-    </Link>
-    <Link href="/women/necklace" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-      Necklace
-    </Link>
-    <Link href="/women/bangle" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-      Bangles
-    </Link>
-    <Link href="/women/set" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-      Women Set
-    </Link>
-  </div>
-)}
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="absolute top-16 left-0 w-full bg-white text-black shadow-md flex flex-col items-start p-4 space-y-2 sm:hidden z-50">
+          <Link href="/" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Home
+          </Link>
+          <Link href="/men" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Men
+          </Link>
+          <Link href="/women/ring" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Ring
+          </Link>
+          <Link href="/women/bracelet" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Bracelet
+          </Link>
+          <Link href="/women/necklace" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Necklace
+          </Link>
+          <Link href="/women/bangle" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Bangles
+          </Link>
+          <Link href="/women/set" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Women Set
+          </Link>
+        </div>
+      )}
     </>
   );
 };
