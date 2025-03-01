@@ -1,6 +1,6 @@
-import { client } from "@/sanity/lib/client"; // Sanity client import
-import Image from "next/image"; // Image component for optimized images
-import { notFound } from "next/navigation"; // For handling 404 errors
+import { client } from "@/sanity/lib/client";
+import Image from "next/image";
+import { notFound } from "next/navigation";
 import AddToCartButtons from "@/components/AddToCartButtons";
 
 // Define a Product interface to structure the product data
@@ -8,7 +8,7 @@ interface Product {
   _id: string;
   name: string;
   description: string;
-  discountedPrice:number;
+  discountedPrice: number;
   originalPrice: number;
   slug: { current: string };
   category: string;
@@ -16,7 +16,6 @@ interface Product {
   image: string;
 }
 
-// Dynamic page component to render product details
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
 
@@ -34,7 +33,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       image
     }`,
     { slug },
-    { cache: "no-store" } // ⬅ Cache ko disable kar raha hai
+    { cache: "no-store" }
   );
 
   // If the product is not found, show a 404 page 
@@ -55,7 +54,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
         </div>
 
         {/* Product Details */}
-        <div className="w-full md:w-1/2">
+        <div className="w-full md:w-1/2 relative">
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
           <p className="text-gray-600 mb-4">{product.description}</p>
 
@@ -68,13 +67,21 @@ export default async function ProductPage({ params }: { params: { slug: string }
           </div>
 
           {/* Price */}
-          <p className="text-xl text-gray-700 mt-2">
-          <p className="text-gray-400 line-through">{product.originalPrice.toFixed(2)}</p>
-          <p className="text-red-500 font-semibold">{product.discountedPrice.toFixed(2)}</p>
-          </p>
+          <div className="mt-2">
+            <p className="text-xl text-gray-700">
+              {product.discountedPrice < product.originalPrice && (
+                <span className="text-gray-500 line-through mr-2">
+                  ${product.originalPrice.toFixed(2)}
+                </span>
+              )}
+              <span className="text-red-500 font-semibold">
+                ${product.discountedPrice.toFixed(2)}
+              </span>
+            </p>
+          </div>
 
-          {/* Add to Cart Button (Disabled if Out of Stock) */}
-          <div className="mt-4">
+          {/* Add to Cart Button */}
+          <div className="mt-4 md:absolute md:bottom-10 md:left-0 md:right-0 md:w-full md:flex justify-center">
             {product.stock > 0 ? (
               <AddToCartButtons product={product} />
             ) : (
