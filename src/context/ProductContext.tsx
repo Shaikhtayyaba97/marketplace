@@ -1,46 +1,46 @@
-'use client';
+"use client";
+import { createContext, useContext, useState, useEffect } from "react";
+import { fetchProducts } from "@/app/lib/fetchProducts";  // Ensure this path is correct
 
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
-import { client } from "@/sanity/lib/client";
-
+// ✅ Product ka interface, price ko null handle karne ke liye update kiya
 interface Product {
-  _id: string;
-  name: string;
-  category: string;
-  slug: { current: string };
   imageUrl: string;
-  price: number;
+  price: number; // Ensure price is always a number
 }
 
+// ✅ Context ka interface
 interface ProductContextProps {
   products: Product[];
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 }
 
+// ✅ Default Context Value
 const ProductContext = createContext<ProductContextProps | undefined>(undefined);
 
-export const ProductProvider = ({ children }: { children: ReactNode }) => {
+export const ProductProvider = ({ children }: { children: React.ReactNode }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // Fetch all products from Sanity when the app loads
   useEffect(() => {
-    const fetchProducts = async () => {
-      const query = `*[_type == "product"]{
-        _id,
-        name,
-        category,
-        slug,
-        "imageUrl": image.asset->url,
-        price
-      }`;
-      const result = await client.fetch(query);
-      setProducts(result);
+    const fetchFilteredProducts = async () => {
+      try {
+        const fetchedData = await fetchProducts(searchQuery);
+
+        // ✅ Ensure price is always a number, handle null cases
+        const results: Product[] = fetchedData.map((item: any) => ({
+          imageUrl: item.imageUrl,
+          price: item.price ?? 0, // If price is null, set to 0
+        }));
+
+        setProducts(results);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
     };
 
-    fetchProducts();
-  }, []);
+    fetchFilteredProducts();
+  }, [searchQuery]);
 
   return (
     <ProductContext.Provider value={{ products, searchQuery, setSearchQuery }}>
@@ -49,7 +49,7 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook to use ProductContext
+// ✅ Custom hook to use Product Context
 export const useSearch = () => {
   const context = useContext(ProductContext);
   if (!context) {

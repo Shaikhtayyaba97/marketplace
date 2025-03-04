@@ -40,7 +40,7 @@ const Wring = ({ category }: { category: string }) => {
         const query = `*[_type == "product" && category == $category] {
           _id, name, originalPrice, discountedPrice, slug, image, stock
         }`;
-        const fetchedProducts = await client.fetch(query, { category });
+        const fetchedProducts = await client.fetch(query, { category },);
         setProducts(fetchedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);

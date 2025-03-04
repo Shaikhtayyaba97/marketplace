@@ -1,95 +1,181 @@
-'use client'
+"use client";
 
 import { useCart } from "@/context/CartContext";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
-import { urlFor } from "@/sanity/lib/client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useSearch } from "@/context/ProductContext"; // Import useSearch
+import { useState, useEffect, useRef } from "react";
+import { useSearch } from "@/context/ProductContext";
+import { useRouter } from "next/navigation";
+import AddToCartButtons from "@/components/AddToCartButtons";
 
 interface Product {
   _id: string;
   name: string;
-  price: number;
+  originalPrice: number;
+  discountedPrice: number;
   slug: { current: string };
-  image:string;
-  stock:number
+  image: string;
+  createdAt?: string;
+  stock:number;
 }
 
-const Maring = ({ category }: { category: string }) => {
+const Mring = ({ category }: { category: string }) => {
+  const router = useRouter();
   const { addToCart } = useCart();
-  const { searchQuery } = useSearch(); // Access the searchQuery
+  const { searchQuery } = useSearch();
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); // Use lowercase 'boolean'
+  const [loading, setLoading] = useState<boolean>(true);
+  const [sortOrder, setSortOrder] = useState<
+    "lowToHigh" | "highToLow" | "bestSelling" | "alphabeticallyAZ" | "alphabeticallyZA" | "newToOld" | "oldToNew"
+  >("lowToHigh");
+
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const sortRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const query = `*[_type == "product" && category == $category] {
-        _id, name, price, slug, image
-      }`;
-
-      const fetchedProducts = await client.fetch(query, { category });
-      setProducts(fetchedProducts);
+      setLoading(true);
+      try {
+        const query = `*[_type == "product" && category == $category] {
+          _id, name, originalPrice, discountedPrice, slug, image, stock
+        }`;
+        const fetchedProducts = await client.fetch(query, { category },);
+        setProducts(fetchedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
       setLoading(false);
     };
 
     fetchProducts();
   }, [category]);
 
-  // Filter products based on search query globally
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+        setIsSortOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (loading) return <p>Loading...</p>;
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortOrder === "lowToHigh") return a.discountedPrice - b.discountedPrice;
+    if (sortOrder === "highToLow") return b.discountedPrice - a.discountedPrice;
+    if (sortOrder === "alphabeticallyAZ") return a.name.localeCompare(b.name);
+    if (sortOrder === "alphabeticallyZA") return b.name.localeCompare(a.name);
+    if (sortOrder === "newToOld") return new Date(b.createdAt || "").getTime() - new Date(a.createdAt || "").getTime();
+    if (sortOrder === "oldToNew") return new Date(a.createdAt || "").getTime() - new Date(b.createdAt || "").getTime();
+    return 0;
+  });
 
-  if (!filteredProducts.length)
-    return <p>No products found for &quot;{searchQuery}&quot;.</p>;
+  if (loading) return <p className="text-center text-lg font-semibold">Loading...</p>;
+
+  if (!sortedProducts.length)
+    return <p className="text-center text-lg font-semibold">No products found for &quot;{searchQuery}&quot;.</p>;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Rings</h1>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
-          <li key={product._id} className="bg-white p-4 rounded-lg shadow-lg text-center">
-            <div className="bg-gray-100 p-4 rounded-md">
-              <Link href={`/men/ring/${product.slug.current}`}>
-                <Image
-                  src={urlFor(product.image).url()}
-                  alt={product.name}
-                  width={120}
-                  height={120}
-                  className="mx-auto object-contain"
-                />
-              </Link>
+    <div className="container mx-auto p-10 !bg-white !text-black">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-left mb-4">Rings</h1>
+        <p className="text-left text-gray-600">
+          Waterproof, Stainless Steel Rings , Tarnish Free and Color Guaranteed for Long-Lasting Wear.
+        </p>
+      </div>
+
+      {/* Sorting */}
+      <div className="flex justify-between items-center mb-6">
+        <div className="relative flex items-center" ref={sortRef}>
+          <button
+            onClick={() => setIsSortOpen(!isSortOpen)}
+            className="py-2 px-4 rounded-md text-sm transition duration-200 flex items-center justify-between bg-gray-200 text-black"
+          >
+            <span>Sort By</span>
+            <span className="ml-2">&#x2195;</span>
+          </button>
+
+          {isSortOpen && (
+            <div className="absolute top-full left-0 mt-2 shadow-lg w-48 rounded-md z-10 bg-white text-black">
+              <div className="flex flex-col">
+                {[
+                  { label: "Price: Low to High", value: "lowToHigh" },
+                  { label: "Price: High to Low", value: "highToLow" },
+                  { label: "Best Selling", value: "bestSelling" },
+                  { label: "Alphabetically A-Z", value: "alphabeticallyAZ" },
+                  { label: "Alphabetically Z-A", value: "alphabeticallyZA" },
+                  { label: "Date: New to Old", value: "newToOld" },
+                  { label: "Date: Old to New", value: "oldToNew" },
+                ].map(({ label, value }) => (
+                  <button
+                    key={value}
+                    onClick={() => {
+                      setSortOrder(value as any);
+                      setIsSortOpen(false);
+                    }}
+                    className="p-2 hover:bg-gray-100 transition duration-200"
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
+          )}
+        </div>
+        <p className="mr-4 text-lg">{sortedProducts.length} Products</p>
+      </div>
+
+      {/* Product List */}
+      <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {sortedProducts.map((product) => (
+          <li key={product._id} className="p-4 rounded-lg shadow-md text-center bg-white">
+          <div className="p-4 rounded-md">
             <Link href={`/men/ring/${product.slug.current}`}>
-              <h2 className="text-lg font-semibold">{product.name}</h2>
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={200} // Change width
+                height={200} // Change height
+                className="w-full h-48 object-cover rounded-md" // Image full cover karegi
+              />
             </Link>
-            <p className="text-gray-700 font-medium">
-              Price: {product.price.toFixed(2)} {/* Format the price */}
-            </p>
-            <button style={{backgroundColor: "#7e5c14"}}
-              onClick={() =>
-                addToCart({
-                  id: product._id,
-                  name: product.name,
-                  price: product.price,
-                  quantity: 1,
-                  image: product.image,
-                  stock:product.stock
-                })
-              }
-              className=" text-white py-2 px-4 rounded-lg mt-4"
-            >
-              Add to Cart
-            </button>
-          </li>
+            <div className="flex justify-between items-center mt-2">
+              {product.stock > 0 ? (
+                <p className="text-green-500 text-sm">In Stock: {product.stock}</p>
+              ) : (
+                <p className="text-red-500 text-sm">Out of Stock</p>
+              )}
+            </div>
+          </div>
+        
+          <Link href={`/men/ring/${product.slug.current}`}>
+            <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
+          </Link>
+        
+          <div className="flex justify-center items-center gap-2 flex-col mt-2">
+            <p className="text-gray-400 line-through">{product.originalPrice.toFixed(2)}</p>
+            <p className="text-red-500 font-semibold">{product.discountedPrice.toFixed(2)}</p>
+          </div>
+        
+          {/* Buttons */}
+          <AddToCartButtons product={{ 
+            _id: product._id,
+            name: product.name, 
+            originalPrice: product.originalPrice, 
+            stock: product.stock, 
+            image: product.image 
+          }} />
+        </li>
+          
         ))}
       </ul>
     </div>
   );
 };
 
-export default Maring;
+export default Mring;

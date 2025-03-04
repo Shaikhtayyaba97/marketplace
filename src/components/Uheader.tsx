@@ -97,7 +97,7 @@ const Header = () => {
 
       {/* Search Bar */}
       {showSearch && (
-        <div className="absolute top-14 right-4 sm:right-10 md:right-16 lg:right-20 bg-white shadow-md p-2 rounded-md z-50">
+        <div className="absolute top-14 right-4 sm:right-10 md:right-16 lg:right-20 bg-white shadow-md p-4 rounded-md z-50 w-72">
           <input
             type="text"
             placeholder="Search..."
@@ -114,10 +114,15 @@ const Header = () => {
                 {products.map((product) => (
                   <Link
                     key={product._id}
-                    href={`/product/${product.slug.current}`}
-                    className="block p-2 hover:bg-gray-100"
+                    href={`/product/${product.slug.current }`}
+                    className="flex items-center p-2 hover:bg-gray-100"
                   >
-                    {product.name}
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="w-12 h-12 rounded-md object-cover mr-2"
+                    />
+                    <span>{product.name}</span>
                   </Link>
                 ))}
               </div>

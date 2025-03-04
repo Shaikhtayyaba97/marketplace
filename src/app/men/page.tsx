@@ -3,17 +3,16 @@ import Image from "next/image";
 
 const MenPage = () => {
   const subcategories = [
-    { name: "Shampoo", image: "/mshampoo.jpg" },
-    { name: "Facewash", image: "/menfw.jpg" },
-    { name: "Ring", image: "/menring.jpg" },
-    { name: "Watch", image: "/menwatch.jpg" },
-    { name: "Bracelet", image: "/menbraclet.jpg" },
+  
+    { name: "Ring", image: "/6.jpg" },
+    { name: "Watch", image: "/wwatch.jpg" },
+    { name: "Bracelets", image: "/wbracelet.jpg" },
   ];
 
   return (
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Men Categories</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Women Categories</h1>
         <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {subcategories.map((subcategory) => (
             <li key={subcategory.name} className="text-center">

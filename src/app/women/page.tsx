@@ -3,8 +3,7 @@ import Image from "next/image";
 
 const MenPage = () => {
   const subcategories = [
-    { name: "Shampoo", image: "/mshampoo.jpg" },
-    { name: "Facewash", image: "/wfacewash.jpg" },
+  
     { name: "Ring", image: "/wring.jpg" },
     { name: "Watch", image: "/wwatch.jpg" },
     { name: "Bracelets", image: "/wbracelet.jpg" },

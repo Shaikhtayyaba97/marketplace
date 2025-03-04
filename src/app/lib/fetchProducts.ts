@@ -5,20 +5,17 @@ export interface Product {
   name: string;
   category: string;
   slug: { current: string };
-  image: string;
-  price: number | null; // Price null bhi ho sakta hai, isliye optional kardiya
+  imageUrl: string;
+  price: number | null;
 }
 
-// ✅ Corrected fetchProducts function
 export const fetchProducts = async (searchQuery: string): Promise<Product[]> => {
   try {
-    const query = `*[_type == "product" && name match $searchQuery + "*"] {
-      _id, name, category, slug, image, price
+    const query = `*[_type == "product" && lower(name) match lower($searchQuery) + "*"] {
+      _id, name, category, slug, "imageUrl": image.asset->url, price
     }`;
 
     const products: Product[] = await client.fetch(query, { searchQuery });
-
-    console.log("Fetched Products:", products);
 
     return products.length > 0 ? products : [];
   } catch (error) {
