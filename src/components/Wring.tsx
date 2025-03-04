@@ -17,10 +17,10 @@ interface Product {
   slug: { current: string };
   image: string;
   createdAt?: string;
-  stock:number;
+  stock: number;
 }
 
-const Wring = ({ category }: { category: string }) => {
+const Mmring = ({ category }: { category: string }) => {
   const router = useRouter();
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
@@ -40,7 +40,7 @@ const Wring = ({ category }: { category: string }) => {
         const query = `*[_type == "product" && category == $category] {
           _id, name, originalPrice, discountedPrice, slug, image, stock
         }`;
-        const fetchedProducts = await client.fetch(query, { category },);
+        const fetchedProducts = await client.fetch(query, { category });
         setProducts(fetchedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -81,94 +81,65 @@ const Wring = ({ category }: { category: string }) => {
     return <p className="text-center text-lg font-semibold">No products found for &quot;{searchQuery}&quot;.</p>;
 
   return (
-    <div className="container mx-auto p-10 !bg-white !text-black">
+    <div className="container mx-auto p-6 bg-white text-black">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-left mb-4">Rings</h1>
+        <h1 className="text-3xl font-bold text-left mb-2">Rings</h1>
         <p className="text-left text-gray-600">
-          Waterproof, Stainless Steel Rings with 18k Gold Plated, Tarnish Free and Color Guaranteed for Long-Lasting Wear.
+          Waterproof, Stainless Steel Rings, Tarnish Free and Color Guaranteed for Long-Lasting Wear.
         </p>
       </div>
 
-      {/* Sorting */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="relative flex items-center" ref={sortRef}>
-          <button
-            onClick={() => setIsSortOpen(!isSortOpen)}
-            className="py-2 px-4 rounded-md text-sm transition duration-200 flex items-center justify-between bg-gray-200 text-black"
-          >
-            <span>Sort By</span>
-            <span className="ml-2">&#x2195;</span>
-          </button>
-
-          {isSortOpen && (
-            <div className="absolute top-full left-0 mt-2 shadow-lg w-48 rounded-md z-10 bg-white text-black">
-              <div className="flex flex-col">
-                {[
-                  { label: "Price: Low to High", value: "lowToHigh" },
-                  { label: "Price: High to Low", value: "highToLow" },
-                  { label: "Best Selling", value: "bestSelling" },
-                  { label: "Alphabetically A-Z", value: "alphabeticallyAZ" },
-                  { label: "Alphabetically Z-A", value: "alphabeticallyZA" },
-                  { label: "Date: New to Old", value: "newToOld" },
-                  { label: "Date: Old to New", value: "oldToNew" },
-                ].map(({ label, value }) => (
-                  <button
-                    key={value}
-                    onClick={() => {
-                      setSortOrder(value as any);
-                      setIsSortOpen(false);
-                    }}
-                    className="p-2 hover:bg-gray-100 transition duration-200"
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-        <p className="mr-4 text-lg">{sortedProducts.length} Products</p>
-      </div>
-
-      {/* Product List */}
+      {/* Product Grid */}
       <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {sortedProducts.map((product) => (
-          <li key={product._id} className="p-4 rounded-lg shadow-lg text-center !bg-white !text-black">
-            <div className="bg-gray-100 p-4 rounded-md">
-              <Link href={`/women/ring/${product.slug.current}`}>
+          <li key={product._id} className="bg-white shadow-lg rounded-md p-4 transition-all duration-300 hover:shadow-xl">
+            {/* Product Image */}
+            <div className="relative overflow-hidden group">
+              <Link href={`/men/ring/${product.slug.current}`}>
                 <Image
                   src={product.image}
                   alt={product.name}
-                  width={100}
-                  height={100}
-                  className="mx-auto object-contain"
+                  width={250}
+                  height={350}
+                  className="w-full h-64 object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
                 />
               </Link>
-              <div className="flex justify-between items-center">
-  {product.stock > 0 ? (
-    <p className="text-green-500">In Stock: {product.stock}</p>
-  ) : (
-    <p className="text-red-500">Out of Stock</p>
-  )}
-</div>
             </div>
-            <Link href={`/women/ring/${product.slug.current}`}>
-              <h2 className="text-lg font-semibold">{product.name}</h2>
-            </Link>
-            <div className="flex justify-center items-center gap-2 flex-col ">
-              <p className="text-gray-400 line-through">{product.originalPrice.toFixed(2)}</p>
-              <p className="text-red-500 font-semibold">{product.discountedPrice.toFixed(2)}</p>
-            </div>
-            {/* Buttons */}
-          
 
-            < AddToCartButtons   product={{ 
-    _id: product._id,
-  name: product.name, 
-  originalPrice: product.originalPrice, 
-  stock: product.stock, 
-  image: product.image 
-}} />
+            {/* Product Details */}
+            <div className="mt-4 text-center">
+              <Link href={`/men/ring/${product.slug.current}`}>
+                <h2 className="text-lg font-semibold hover:text-gray-600 transition duration-200">{product.name}</h2>
+              </Link>
+
+              {/* Price Section */}
+              <div className="mt-2 flex flex-col items-center">
+                <span className="text-gray-500 line-through text-sm">{product.originalPrice.toFixed(2)}</span>
+                <span className="text-red-500 font-bold text-lg">{product.discountedPrice.toFixed(2)}</span>
+              </div>
+
+              {/* Stock Info */}
+              <p
+                className={`mt-1 text-sm font-medium ${
+                  product.stock > 0 ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {product.stock > 0 ? `In Stock: ${product.stock}` : "Out of Stock"}
+              </p>
+
+              {/* Add to Cart Button */}
+              <div className="mt-4">
+                <AddToCartButtons
+                  product={{
+                    _id: product._id,
+                    name: product.name,
+                    originalPrice: product.originalPrice,
+                    stock: product.stock,
+                    image: product.image,
+                  }}
+                />
+              </div>
+            </div>
           </li>
         ))}
       </ul>
@@ -176,4 +147,4 @@ const Wring = ({ category }: { category: string }) => {
   );
 };
 
-export default Wring;
+export default Mmring;

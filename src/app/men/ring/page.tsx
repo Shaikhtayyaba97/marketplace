@@ -1,9 +1,9 @@
-import Mring from "@/components/Wring";
+import Mmring from "@/components/Wring";
 
 export default function Mringg(){
     return(
         <div>
-            <Mring category="malering"/>
+            <Mmring category="malering"/>
         </div>
     )
 }
