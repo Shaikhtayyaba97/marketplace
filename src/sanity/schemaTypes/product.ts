@@ -42,6 +42,7 @@ export default {
             { title: 'Cbraclet', value: 'cbraclet' },
             { title: 'Clocket', value: 'clocket' },
             { title: 'Cmug', value: 'cmug' },
+            { title: 'Mixitems', value: 'mixitems' },
 
 
 
