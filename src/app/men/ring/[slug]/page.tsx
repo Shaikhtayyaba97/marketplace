@@ -71,11 +71,11 @@ export default async function ProductPage({ params }: { params: { slug: string }
             <p className="text-xl text-gray-700">
               {product.discountedPrice < product.originalPrice && (
                 <span className="text-gray-500 line-through mr-2">
-                  ${product.originalPrice.toFixed(2)}
+                  {product.originalPrice.toFixed(2)}
                 </span>
               )} <br />
               <span className="text-red-500 font-semibold">
-                ${product.discountedPrice.toFixed(2)}
+                {product.discountedPrice.toFixed(2)}
               </span>
             </p>
           </div>
