@@ -33,6 +33,8 @@ export default {
             { title: 'Women Bracelet', value: 'womenbraclet' },
             { title: 'Men Locket', value: 'menlocket' },
             { title: 'Women Locket', value: 'womenlocket' },
+            { title: 'Women Earring', value: 'womenearring' },
+            { title: 'Women Bangle', value: 'womenbangle' },
             { title: 'Cufflink', value: 'cufflink' },
             { title: 'Wallet', value: 'wallet' },
             { title: 'CEarring', value: 'cearring' },

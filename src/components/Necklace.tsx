@@ -20,7 +20,7 @@ interface Product {
   stock: number;
 }
 
-const Bracelet = ({ category }: { category: string }) => {
+const Necklace = ({ category }: { category: string }) => {
   const router = useRouter();
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
@@ -83,9 +83,9 @@ const Bracelet = ({ category }: { category: string }) => {
   return (
     <div className="container mx-auto p-6 bg-white text-black">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-left mb-2">Bracelets</h1>
+        <h1 className="text-3xl font-bold text-left mb-2">Necklace</h1>
         <p className="text-left text-gray-600">
-          Waterproof, Stainless Steel Bracelets, Tarnish Free and Color Guaranteed for Long-Lasting Wear.
+          Waterproof, Stainless Steel Necklaces, Tarnish Free and Color Guaranteed for Long-Lasting Wear.
         </p>
       </div>
 
@@ -95,7 +95,7 @@ const Bracelet = ({ category }: { category: string }) => {
           <li key={product._id} className="bg-white shadow-lg rounded-md p-4 transition-all duration-300 hover:shadow-xl">
             {/* Product Image */}
             <div className="relative overflow-hidden group">
-              <Link href={`/women/bracelet/${product.slug.current}`}>
+              <Link href={`/women/necklace/${product.slug.current}`}>
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -108,7 +108,7 @@ const Bracelet = ({ category }: { category: string }) => {
 
             {/* Product Details */}
             <div className="mt-4 text-center">
-              <Link href={`/women/bracelet/${product.slug.current}`}>
+              <Link href={`/women/necklace/${product.slug.current}`}>
                 <h2 className="text-lg font-semibold hover:text-gray-600 transition duration-200">{product.name}</h2>
               </Link>
 
@@ -147,4 +147,4 @@ const Bracelet = ({ category }: { category: string }) => {
   );
 };
 
-export default Bracelet;
+export default Necklace;
