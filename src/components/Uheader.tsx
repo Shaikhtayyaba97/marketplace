@@ -1,17 +1,13 @@
 "use client";
-
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ShoppingCartIcon, MagnifyingGlassIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/CartContext";
 import { useSearch } from "@/context/ProductContext";
-import { fetchProducts } from "@/app/lib/fetchProducts";
 
 const Header = () => {
   const { cartItems } = useCart();
-  const { searchQuery, setSearchQuery } = useSearch();
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { searchQuery, setSearchQuery, products, loading } = useSearch();
   const [isHydrated, setIsHydrated] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -21,26 +17,6 @@ const Header = () => {
   useEffect(() => {
     setIsHydrated(true);
   }, []);
-
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      if (searchQuery.trim() !== "") {
-        setLoading(true);
-        try {
-          const results = await fetchProducts(searchQuery);
-          setProducts(results);
-        } catch (error) {
-          console.error("Error fetching search results:", error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setProducts([]);
-      }
-    };
-
-    fetchSearchResults();
-  }, [searchQuery]);
 
   return (
     <>
@@ -114,7 +90,7 @@ const Header = () => {
                 {products.map((product) => (
                   <Link
                     key={product._id}
-                    href={`/product/${product.slug.current }`}
+                    href={`/product/${product.slug.current}`}
                     className="flex items-center p-2 hover:bg-gray-100"
                   >
                     <img
@@ -128,33 +104,6 @@ const Header = () => {
               </div>
             )
           )}
-        </div>
-      )}
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white text-black shadow-md flex flex-col items-start p-4 space-y-2 sm:hidden z-50">
-          <Link href="/" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-            Home
-          </Link>
-          <Link href="/men" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-            Men
-          </Link>
-          <Link href="/women/ring" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-            Ring
-          </Link>
-          <Link href="/women/bracelet" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-            Bracelet
-          </Link>
-          <Link href="/women/necklace" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-            Necklace
-          </Link>
-          <Link href="/women/bangle" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-            Bangles
-          </Link>
-          <Link href="/women/set" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
-            Women Set
-          </Link>
         </div>
       )}
     </>

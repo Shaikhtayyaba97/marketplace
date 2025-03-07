@@ -1,11 +1,14 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
-import { fetchProducts } from "@/app/lib/fetchProducts";  // Ensure this path is correct
+import { fetchProducts } from "@/app/lib/fetchProducts"; // Ensure path is correct
 
-// ✅ Product ka interface, price ko null handle karne ke liye update kiya
+// ✅ Product ka interface
 interface Product {
+  _id: string;
+  name: string;
+  slug: { current: string };
   imageUrl: string;
-  price: number; // Ensure price is always a number
+  price: number;
 }
 
 // ✅ Context ka interface
@@ -13,6 +16,7 @@ interface ProductContextProps {
   products: Product[];
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  loading: boolean;
 }
 
 // ✅ Default Context Value
@@ -21,14 +25,23 @@ const ProductContext = createContext<ProductContextProps | undefined>(undefined)
 export const ProductProvider = ({ children }: { children: React.ReactNode }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchFilteredProducts = async () => {
+      if (!searchQuery.trim()) {
+        setProducts([]); // ✅ Agar search query empty ho toh results clear ho jayen
+        return;
+      }
+
+      setLoading(true);
       try {
         const fetchedData = await fetchProducts(searchQuery);
-
         // ✅ Ensure price is always a number, handle null cases
         const results: Product[] = fetchedData.map((item: any) => ({
+          _id: item._id,
+          name: item.name,
+          slug: item.slug,
           imageUrl: item.imageUrl,
           price: item.price ?? 0, // If price is null, set to 0
         }));
@@ -36,6 +49,8 @@ export const ProductProvider = ({ children }: { children: React.ReactNode }) => 
         setProducts(results);
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -43,7 +58,7 @@ export const ProductProvider = ({ children }: { children: React.ReactNode }) => 
   }, [searchQuery]);
 
   return (
-    <ProductContext.Provider value={{ products, searchQuery, setSearchQuery }}>
+    <ProductContext.Provider value={{ products, searchQuery, setSearchQuery, loading }}>
       {children}
     </ProductContext.Provider>
   );
