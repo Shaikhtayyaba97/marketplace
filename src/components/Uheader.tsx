@@ -105,9 +105,47 @@ const Header = () => {
             )
           )}
         </div>
+        
+      )}
+    {/* Mobile Menu */}
+    {isMobileMenuOpen && (
+        <div className="absolute top-16 left-0 w-full bg-white text-black shadow-md flex flex-col items-start p-4 space-y-2 sm:hidden z-50">
+          <Link href="/" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Home
+          </Link>
+          <Link href="/men" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Men
+          </Link>
+          <Link href="/women/ring" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Ring
+          </Link>
+          <Link href="/women/bracelet" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Bracelet
+          </Link>
+          <Link href="/women/necklace" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Necklace
+          </Link>
+          <Link href="/women/bangle" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Bangles
+          </Link>
+          <Link href="/women/set" className="text-lg text-black w-full p-2 hover:bg-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+            Women Set
+          </Link>
+        </div>
       )}
     </>
   );
 };
 
 export default Header;
+
+
+
+
+
+
+
+
+
+
+
